@@ -158,7 +158,8 @@ final class InstallController extends BaseController
                 email: $email,
                 plainPassword: $password,
                 fullName: $fullName,
-                isSuperAdmin: true,
+                role: 'super_admin',
+                clubId: null,
                 needsPasswordSetup: false,
             );
         } catch (\Throwable $e) {
