@@ -5,6 +5,7 @@ use App\Helpers\Renderer;
 /**
  * @var array<int,array{0:string,1:string}> $domains
  * @var array{name:string,phone:string,email:string,company:string,address:string} $lead
+ * @var array<int,array{name:string,role:string,bio:string,initials:string,accent:string}> $experts
  */
 ?>
 <section class="page-hero">
@@ -36,6 +37,29 @@ use App\Helpers\Renderer;
     </div>
 </section>
 
+<section class="section">
+    <div class="container">
+        <p class="eyebrow tx-orange">l'équipe</p>
+        <h2 class="section__title">Des consultants qui connaissent le terrain.</h2>
+        <div class="experts-grid">
+            <?php foreach ($experts as $ex): ?>
+                <article class="expert-card">
+                    <div class="expert-card__avatar expert-card__avatar--<?= Renderer::escape($ex['accent']) ?>" aria-hidden="true">
+                        <?= Renderer::escape($ex['initials']) ?>
+                    </div>
+                    <h3 class="expert-card__name"><?= Renderer::escape($ex['name']) ?></h3>
+                    <p class="expert-card__role"><?= Renderer::escape($ex['role']) ?></p>
+                    <p class="expert-card__bio"><?= Renderer::escape($ex['bio']) ?></p>
+                </article>
+            <?php endforeach; ?>
+        </div>
+        <p class="note-placeholder">
+            <strong>Données fictives :</strong> ces 3 profils sont des exemples de mise en page.
+            Ils seront remplacés par la vraie équipe (nom, rôle, photo, parcours) dès réception.
+        </p>
+    </div>
+</section>
+
 <section class="section section--tint">
     <div class="container">
         <p class="eyebrow tx-orange">domaines d'expertise</p>
@@ -51,10 +75,6 @@ use App\Helpers\Renderer;
                 </div>
             <?php endforeach; ?>
         </div>
-        <p class="note-placeholder">
-            <strong>À compléter :</strong> les fiches nominatives des consultants (nom, rôle,
-            photo, parcours) seront ajoutées ici dès réception.
-        </p>
     </div>
 </section>
 

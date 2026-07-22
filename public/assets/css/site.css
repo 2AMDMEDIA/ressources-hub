@@ -230,6 +230,21 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 .expert-lead__meta a { color: var(--navy); font-weight: 600; }
 .note-placeholder { margin-top: 28px; padding: 14px 18px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; color: #92400e; font-size: 14px; }
 
+/* Grille des consultants */
+.experts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.expert-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); text-align: center; }
+.expert-card__avatar {
+    width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 30px; font-weight: 800; letter-spacing: 0.02em;
+}
+.expert-card__avatar--steel { background: linear-gradient(135deg, #6f9cbe, var(--steel)); }
+.expert-card__avatar--navy { background: linear-gradient(135deg, var(--steel), var(--navy)); }
+.expert-card__avatar--orange { background: linear-gradient(135deg, #f0894f, var(--orange)); }
+.expert-card__name { font-size: 20px; margin: 0 0 4px; }
+.expert-card__role { color: var(--orange); font-weight: 700; font-size: 14px; margin: 0 0 12px; }
+.expert-card__bio { color: var(--muted); font-size: 15px; margin: 0; }
+
 /* Pricing */
 .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; align-items: start; }
 .pricing-card { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
@@ -287,7 +302,7 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
     .site-nav__link.is-active::after { display: none; }
     .login-pop, .site-nav__cta { margin-left: 0; margin-top: 8px; }
     .login-pop__panel { position: static; width: 100%; box-shadow: none; padding: 14px 0 0; border: none; }
-    .cards-3, .offer-teaser, .domains-grid, .pricing-grid, .contact-grid { grid-template-columns: 1fr; }
+    .cards-3, .offer-teaser, .domains-grid, .pricing-grid, .contact-grid, .experts-grid { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
     .site-footer__inner { grid-template-columns: 1fr; }
     .cta-band__inner { flex-direction: column; align-items: flex-start; }

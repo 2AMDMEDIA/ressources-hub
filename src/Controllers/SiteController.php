@@ -40,6 +40,34 @@ final class SiteController extends BaseController
         ['Création', 'Ouverture de club, concept et business plan.'],
     ];
 
+    /**
+     * Consultants — DONNÉES FICTIVES à remplacer par la vraie équipe.
+     * initials + accent servent à générer l'avatar tant qu'il n'y a pas de photo.
+     */
+    private const EXPERTS = [
+        [
+            'name' => 'Camille Roussel',
+            'role' => 'Experte Vente & Développement commercial',
+            'bio' => 'Ancienne directrice de réseau, elle structure les process de vente et la montée en compétence des équipes terrain.',
+            'initials' => 'CR',
+            'accent' => 'steel',
+        ],
+        [
+            'name' => 'Thomas Bianchi',
+            'role' => 'Expert Marketing & Acquisition',
+            'bio' => 'Spécialiste de la communication locale et de l\'acquisition, il aide les clubs à remplir durablement leur pipeline de prospects.',
+            'initials' => 'TB',
+            'accent' => 'navy',
+        ],
+        [
+            'name' => 'Sarah Mendes',
+            'role' => 'Experte Fidélisation & Expérience membre',
+            'bio' => 'Elle conçoit les parcours d\'onboarding et de rétention pour réduire les résiliations et améliorer le NPS.',
+            'initials' => 'SM',
+            'accent' => 'orange',
+        ],
+    ];
+
     // -------------------------------------------------------------------------
     // Pages
     // -------------------------------------------------------------------------
@@ -58,6 +86,7 @@ final class SiteController extends BaseController
             'title' => 'Nos experts — RESSOURCES',
             'domains' => self::DOMAINS,
             'lead' => self::CONTACT,
+            'experts' => self::EXPERTS,
         ], 'experts');
     }
 
