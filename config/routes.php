@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
-use App\Controllers\HomeController;
 use App\Controllers\InstallController;
+use App\Controllers\SiteController;
 
 /**
  * Table de routage RESSOURCES.
@@ -20,8 +20,12 @@ use App\Controllers\InstallController;
  * Les lots suivants ajouteront : back-office contenus, bibliothèque, lecteur Vimeo, RAG/chatbot.
  */
 return [
-    // Accueil — redirige vers /dashboard (connecté) ou /login
-    ['GET', '/', [HomeController::class, 'index'], false],
+    // -- Site vitrine public (accessible à tous) --
+    ['GET',  '/', [SiteController::class, 'home'], false],
+    ['GET',  '/experts', [SiteController::class, 'experts'], false],
+    ['GET',  '/prix', [SiteController::class, 'pricing'], false],
+    ['GET',  '/contact', [SiteController::class, 'contact'], false],
+    ['POST', '/contact', [SiteController::class, 'submitContact'], false],
 
     // Installation one-shot (token-protégée via INSTALL_TOKEN dans .env)
     ['GET',  '/install', [InstallController::class, 'show'], false],
