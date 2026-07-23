@@ -73,10 +73,13 @@ final class UserRepository
     public function create(
         string $email,
         ?string $plainPassword,
-        string $fullName,
+        string $fullName = '',
         string $role = 'club_member',
         ?string $clubId = null,
         bool $needsPasswordSetup = false,
+        ?string $firstName = null,
+        ?string $lastName = null,
+        ?string $jobTitle = null,
     ): User {
         $id = Uuid::uuid4()->toString();
         $cost = (int) (Bootstrap::config('app.security.bcrypt_cost') ?? 12);
@@ -85,9 +88,13 @@ final class UserRepository
             : null;
         $isSuperAdmin = $role === 'super_admin';
 
+        if ($fullName === '' && ($firstName !== null || $lastName !== null)) {
+            $fullName = trim(($firstName ?? '') . ' ' . ($lastName ?? ''));
+        }
+
         $stmt = $this->pdo()->prepare(
-            'INSERT INTO users (id, club_id, email, password_hash, full_name, role, is_super_admin, status, needs_password_setup)
-             VALUES (:id, :club_id, :email, :hash, :name, :role, :super_admin, :status, :needs_setup)'
+            'INSERT INTO users (id, club_id, email, password_hash, full_name, first_name, last_name, job_title, role, is_super_admin, status, needs_password_setup)
+             VALUES (:id, :club_id, :email, :hash, :name, :first, :last, :job, :role, :super_admin, :status, :needs_setup)'
         );
         $stmt->execute([
             ':id' => $id,
@@ -95,6 +102,9 @@ final class UserRepository
             ':email' => mb_strtolower($email),
             ':hash' => $hash,
             ':name' => $fullName,
+            ':first' => $firstName,
+            ':last' => $lastName,
+            ':job' => $jobTitle,
             ':role' => $role,
             ':super_admin' => $isSuperAdmin ? 1 : 0,
             ':status' => 'active',
@@ -106,6 +116,24 @@ final class UserRepository
             throw new \RuntimeException('Création utilisateur échouée.');
         }
         return $user;
+    }
+
+    /** Met à jour l'identité d'un membre (prénom, nom, fonction, email). full_name resynchronisé. */
+    public function updateProfile(string $userId, string $firstName, string $lastName, string $email, ?string $jobTitle): void
+    {
+        $fullName = trim($firstName . ' ' . $lastName);
+        $stmt = $this->pdo()->prepare(
+            'UPDATE users SET first_name = :first, last_name = :last, full_name = :name,
+                    email = :email, job_title = :job, updated_at = NOW() WHERE id = :id'
+        );
+        $stmt->execute([
+            ':first' => $firstName,
+            ':last' => $lastName,
+            ':name' => $fullName,
+            ':email' => mb_strtolower($email),
+            ':job' => $jobTitle,
+            ':id' => $userId,
+        ]);
     }
 
     public function updatePassword(string $userId, string $plainPassword): void

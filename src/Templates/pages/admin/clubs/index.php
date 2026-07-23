@@ -23,8 +23,8 @@ $statusLabel = ['active' => 'Actif', 'suspended' => 'Suspendu', 'closed' => 'Fer
             <thead>
                 <tr>
                     <th>Club</th>
+                    <th>Ville</th>
                     <th>Manager</th>
-                    <th>Sièges</th>
                     <th>Statut</th>
                     <th></th>
                 </tr>
@@ -34,15 +34,15 @@ $statusLabel = ['active' => 'Actif', 'suspended' => 'Suspendu', 'closed' => 'Fer
                     <?php $st = $c['status']; ?>
                     <tr onclick="location.href='/admin/clubs/<?= Renderer::escape($c['id']) ?>'">
                         <td><strong><?= Renderer::escape($c['name']) ?></strong></td>
+                        <td><?= Renderer::escape($c['city'] ?? '') ?: '<span style="color:var(--color-text-muted)">—</span>' ?></td>
                         <td>
-                            <?php if (!empty($c['owner_email'])): ?>
-                                <?= Renderer::escape($c['owner_name'] ?: $c['owner_email']) ?><br>
-                                <span style="color:var(--color-text-muted);font-size:12px;"><?= Renderer::escape($c['owner_email']) ?></span>
+                            <?php if (!empty($c['manager_email'])): ?>
+                                <?= Renderer::escape($c['manager_name'] ?: $c['manager_email']) ?><br>
+                                <span style="color:var(--color-text-muted);font-size:12px;"><?= Renderer::escape($c['manager_email']) ?></span>
                             <?php else: ?>
                                 <span style="color:var(--color-text-muted);">—</span>
                             <?php endif; ?>
                         </td>
-                        <td><?= (int) $c['seats_used'] ?> / <?= (int) $c['seats_limit'] ?></td>
                         <td><span class="badge badge--<?= $badge[$st] ?? 'gray' ?>"><?= $statusLabel[$st] ?? $st ?></span></td>
                         <td style="text-align:right;"><a href="/admin/clubs/<?= Renderer::escape($c['id']) ?>" class="btn btn--ghost btn--sm">Gérer →</a></td>
                     </tr>

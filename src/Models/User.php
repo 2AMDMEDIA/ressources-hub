@@ -12,6 +12,9 @@ final class User
         public string $email,
         public ?string $passwordHash,
         public string $fullName,
+        public ?string $firstName,
+        public ?string $lastName,
+        public ?string $jobTitle,
         public string $role,          // 'super_admin' | 'club_owner' | 'club_member'
         public bool $isSuperAdmin,
         public string $status,        // 'active' | 'suspended'
@@ -30,6 +33,9 @@ final class User
             email: $row['email'],
             passwordHash: $row['password_hash'],
             fullName: $row['full_name'] ?? '',
+            firstName: $row['first_name'] ?? null,
+            lastName: $row['last_name'] ?? null,
+            jobTitle: $row['job_title'] ?? null,
             role: $row['role'] ?? 'club_member',
             isSuperAdmin: (bool) ($row['is_super_admin'] ?? false),
             status: $row['status'] ?? 'active',

@@ -33,7 +33,7 @@ use App\Helpers\Renderer;
             <?php elseif ($chrome['is_super_admin']): ?>
                 <span class="appbar__club appbar__club--admin">Administration</span>
             <?php endif; ?>
-            <span class="appbar__user"><?= Renderer::escape($chrome['user_name']) ?></span>
+            <a href="/compte" class="appbar__user appbar__user--link"><?= Renderer::escape($chrome['user_name']) ?></a>
             <form method="POST" action="/logout" class="appbar__logout">
                 <input type="hidden" name="_csrf" value="<?= Renderer::escape($csrf_token) ?>">
                 <button type="submit" class="btn btn--ghost btn--sm">Déconnexion</button>

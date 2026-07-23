@@ -9,11 +9,14 @@ final class Club
     public function __construct(
         public string $id,
         public string $name,
-        public ?string $ownerUserId,
+        public ?string $siret,
+        public ?string $address,
+        public ?string $postalCode,
+        public ?string $city,
+        public ?string $country,
+        public ?int $areaSqm,
+        public ?int $openingYear,
         public string $status,        // 'active' | 'suspended' | 'closed'
-        public int $seatsLimit,
-        public ?string $contactEmail,
-        public ?string $contractRef,
         public string $createdAt,
         public string $updatedAt,
     ) {
@@ -24,11 +27,14 @@ final class Club
         return new self(
             id: $row['id'],
             name: $row['name'],
-            ownerUserId: $row['owner_user_id'] ?? null,
+            siret: $row['siret'] ?? null,
+            address: $row['address'] ?? null,
+            postalCode: $row['postal_code'] ?? null,
+            city: $row['city'] ?? null,
+            country: $row['country'] ?? null,
+            areaSqm: isset($row['area_sqm']) ? (int) $row['area_sqm'] : null,
+            openingYear: isset($row['opening_year']) ? (int) $row['opening_year'] : null,
             status: $row['status'] ?? 'active',
-            seatsLimit: (int) ($row['seats_limit'] ?? 1),
-            contactEmail: $row['contact_email'] ?? null,
-            contractRef: $row['contract_ref'] ?? null,
             createdAt: $row['created_at'],
             updatedAt: $row['updated_at'],
         );

@@ -32,55 +32,38 @@ final class ClubRepository
     }
 
     /**
-     * Liste des clubs enrichie : sièges occupés + propriétaire.
+     * Liste des clubs enrichie du manager (via la table de liaison club_managers).
      * @return list<array<string,mixed>>
      */
     public function listWithStats(): array
     {
-        $sql = 'SELECT c.*,
-                       (SELECT COUNT(*) FROM users u WHERE u.club_id = c.id) AS seats_used,
-                       o.email AS owner_email, o.full_name AS owner_name
+        $sql = 'SELECT c.*, m.email AS manager_email, m.full_name AS manager_name
                 FROM clubs c
-                LEFT JOIN users o ON o.id = c.owner_user_id
+                LEFT JOIN club_managers cm ON cm.club_id = c.id
+                LEFT JOIN users m ON m.id = cm.user_id
                 ORDER BY c.name ASC';
         return $this->pdo()->query($sql)->fetchAll();
     }
 
-    public function update(string $id, string $name, int $seatsLimit, ?string $contactEmail, ?string $contractRef): void
-    {
-        $stmt = $this->pdo()->prepare(
-            'UPDATE clubs SET name = :name, seats_limit = :seats, contact_email = :email,
-                    contract_ref = :ref, updated_at = NOW() WHERE id = :id'
-        );
-        $stmt->execute([
-            ':name' => $name,
-            ':seats' => $seatsLimit,
-            ':email' => $contactEmail,
-            ':ref' => $contractRef,
-            ':id' => $id,
-        ]);
-    }
-
-    public function delete(string $id): void
-    {
-        $this->pdo()->prepare('DELETE FROM users WHERE club_id = :id')->execute([':id' => $id]);
-        $this->pdo()->prepare('DELETE FROM clubs WHERE id = :id')->execute([':id' => $id]);
-    }
-
-    public function create(string $name, ?string $contactEmail = null, int $seatsLimit = 1, ?string $contractRef = null): Club
+    /** @param array<string,mixed> $data */
+    public function create(string $name, array $data = []): Club
     {
         $id = Uuid::uuid4()->toString();
         $stmt = $this->pdo()->prepare(
-            'INSERT INTO clubs (id, name, status, seats_limit, contact_email, contract_ref)
-             VALUES (:id, :name, :status, :seats, :email, :ref)'
+            'INSERT INTO clubs (id, name, siret, address, postal_code, city, country, area_sqm, opening_year, status)
+             VALUES (:id, :name, :siret, :address, :postal, :city, :country, :area, :year, :status)'
         );
         $stmt->execute([
             ':id' => $id,
             ':name' => $name,
+            ':siret' => $data['siret'] ?? null,
+            ':address' => $data['address'] ?? null,
+            ':postal' => $data['postal_code'] ?? null,
+            ':city' => $data['city'] ?? null,
+            ':country' => $data['country'] ?? 'France',
+            ':area' => $data['area_sqm'] ?? null,
+            ':year' => $data['opening_year'] ?? null,
             ':status' => 'active',
-            ':seats' => $seatsLimit,
-            ':email' => $contactEmail,
-            ':ref' => $contractRef,
         ]);
         $club = $this->findById($id);
         if ($club === null) {
@@ -89,10 +72,25 @@ final class ClubRepository
         return $club;
     }
 
-    public function setOwner(string $clubId, string $userId): void
+    /** @param array<string,mixed> $data */
+    public function update(string $id, string $name, array $data): void
     {
-        $stmt = $this->pdo()->prepare('UPDATE clubs SET owner_user_id = :uid, updated_at = NOW() WHERE id = :id');
-        $stmt->execute([':uid' => $userId, ':id' => $clubId]);
+        $stmt = $this->pdo()->prepare(
+            'UPDATE clubs SET name = :name, siret = :siret, address = :address, postal_code = :postal,
+                    city = :city, country = :country, area_sqm = :area, opening_year = :year, updated_at = NOW()
+             WHERE id = :id'
+        );
+        $stmt->execute([
+            ':name' => $name,
+            ':siret' => $data['siret'] ?? null,
+            ':address' => $data['address'] ?? null,
+            ':postal' => $data['postal_code'] ?? null,
+            ':city' => $data['city'] ?? null,
+            ':country' => $data['country'] ?? 'France',
+            ':area' => $data['area_sqm'] ?? null,
+            ':year' => $data['opening_year'] ?? null,
+            ':id' => $id,
+        ]);
     }
 
     /** @param string $status 'active' | 'suspended' | 'closed' */
@@ -100,5 +98,12 @@ final class ClubRepository
     {
         $stmt = $this->pdo()->prepare('UPDATE clubs SET status = :status, updated_at = NOW() WHERE id = :id');
         $stmt->execute([':status' => $status, ':id' => $clubId]);
+    }
+
+    public function delete(string $id): void
+    {
+        $this->pdo()->prepare('DELETE FROM club_managers WHERE club_id = :id')->execute([':id' => $id]);
+        $this->pdo()->prepare('DELETE FROM users WHERE club_id = :id')->execute([':id' => $id]);
+        $this->pdo()->prepare('DELETE FROM clubs WHERE id = :id')->execute([':id' => $id]);
     }
 }
