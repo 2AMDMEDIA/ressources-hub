@@ -1411,3 +1411,32 @@ a:hover { text-decoration: underline; }
 /* CTA d'action orange (promos, actions fortes — cf. charte CDC) */
 .btn--accent { background: var(--color-accent); color: #fff; }
 .btn--accent:hover { background: var(--color-accent-hover); }
+
+/* -----------------------------------------------------------------------------
+   RESSOURCES — back-office admin (overrides + composants)
+   ----------------------------------------------------------------------------- */
+.admin-sidebar { background: var(--color-primary); }               /* navy */
+.admin-sidebar .sidebar__brand { border-bottom-color: rgba(255,255,255,0.12); }
+.admin-sidebar .sidebar__item { color: #d7e2f2; }
+.admin-sidebar .sidebar__item:hover { background: rgba(255,255,255,0.10); color: #fff; }
+.sidebar__item--active { background: var(--color-accent, #E8672A); }
+.sidebar__item--active:hover { background: #d1571d; }
+.sidebar__item--disabled { color: #8ea6c6; cursor: default; opacity: .6; }
+.sidebar__item--disabled:hover { background: transparent; }
+.sidebar__foot { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.12); border-radius: 0; font-size: 13px; }
+
+.admin-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 60px; background: #fff; border-bottom: 1px solid var(--color-border);
+}
+.admin-topbar__title { font-size: 18px; font-weight: 700; margin: 0; }
+.admin-topbar__right { display: flex; align-items: center; gap: 14px; }
+.admin-topbar__user { font-size: 14px; color: var(--color-text-muted); }
+
+.page-actions { margin-bottom: 16px; }
+.admin-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: start; }
+.admin-cols .card { margin-bottom: 20px; }
+
+@media (max-width: 900px) {
+    .admin-cols { grid-template-columns: 1fr; }
+}

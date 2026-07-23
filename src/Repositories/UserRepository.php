@@ -52,6 +52,19 @@ final class UserRepository
         return (int) $stmt->fetchColumn();
     }
 
+    /** Total des comptes rattachés au club (owner + collaborateurs), tous statuts. */
+    public function countByClub(string $clubId): int
+    {
+        $stmt = $this->pdo()->prepare('SELECT COUNT(*) FROM users WHERE club_id = :club');
+        $stmt->execute([':club' => $clubId]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function deleteById(string $userId): void
+    {
+        $this->pdo()->prepare('DELETE FROM users WHERE id = :id')->execute([':id' => $userId]);
+    }
+
     /**
      * Crée un utilisateur.
      *

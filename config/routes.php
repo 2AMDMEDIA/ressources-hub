@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Controllers\AdminClubsController;
+use App\Controllers\AdminController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\InstallController;
@@ -44,4 +46,17 @@ return [
 
     // Espace membre — protégé par le paywall (club actif ET membre actif)
     ['GET', '/dashboard', [DashboardController::class, 'index'], true],
+
+    // -- Back-office super-admin : gestion des clubs --
+    ['GET',  '/admin', [AdminController::class, 'index'], 'super-admin'],
+    ['GET',  '/admin/clubs', [AdminClubsController::class, 'index'], 'super-admin'],
+    ['GET',  '/admin/clubs/new', [AdminClubsController::class, 'showNew'], 'super-admin'],
+    ['POST', '/admin/clubs', [AdminClubsController::class, 'create'], 'super-admin'],
+    ['GET',  '/admin/clubs/{id}', [AdminClubsController::class, 'show'], 'super-admin'],
+    ['POST', '/admin/clubs/{id}', [AdminClubsController::class, 'update'], 'super-admin'],
+    ['POST', '/admin/clubs/{id}/status', [AdminClubsController::class, 'setStatus'], 'super-admin'],
+    ['POST', '/admin/clubs/{id}/delete', [AdminClubsController::class, 'delete'], 'super-admin'],
+    ['POST', '/admin/clubs/{id}/members', [AdminClubsController::class, 'inviteMember'], 'super-admin'],
+    ['POST', '/admin/clubs/{id}/members/{userId}/remove', [AdminClubsController::class, 'removeMember'], 'super-admin'],
+    ['POST', '/admin/clubs/{id}/members/{userId}/resend', [AdminClubsController::class, 'resendInvitation'], 'super-admin'],
 ];

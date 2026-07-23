@@ -31,6 +31,42 @@ final class ClubRepository
         return array_map([Club::class, 'fromRow'], $rows);
     }
 
+    /**
+     * Liste des clubs enrichie : sièges occupés + propriétaire.
+     * @return list<array<string,mixed>>
+     */
+    public function listWithStats(): array
+    {
+        $sql = 'SELECT c.*,
+                       (SELECT COUNT(*) FROM users u WHERE u.club_id = c.id) AS seats_used,
+                       o.email AS owner_email, o.full_name AS owner_name
+                FROM clubs c
+                LEFT JOIN users o ON o.id = c.owner_user_id
+                ORDER BY c.name ASC';
+        return $this->pdo()->query($sql)->fetchAll();
+    }
+
+    public function update(string $id, string $name, int $seatsLimit, ?string $contactEmail, ?string $contractRef): void
+    {
+        $stmt = $this->pdo()->prepare(
+            'UPDATE clubs SET name = :name, seats_limit = :seats, contact_email = :email,
+                    contract_ref = :ref, updated_at = NOW() WHERE id = :id'
+        );
+        $stmt->execute([
+            ':name' => $name,
+            ':seats' => $seatsLimit,
+            ':email' => $contactEmail,
+            ':ref' => $contractRef,
+            ':id' => $id,
+        ]);
+    }
+
+    public function delete(string $id): void
+    {
+        $this->pdo()->prepare('DELETE FROM users WHERE club_id = :id')->execute([':id' => $id]);
+        $this->pdo()->prepare('DELETE FROM clubs WHERE id = :id')->execute([':id' => $id]);
+    }
+
     public function create(string $name, ?string $contactEmail = null, int $seatsLimit = 1, ?string $contractRef = null): Club
     {
         $id = Uuid::uuid4()->toString();

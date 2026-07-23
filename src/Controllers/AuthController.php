@@ -71,8 +71,7 @@ final class AuthController extends BaseController
         Session::set('club_id', $user->clubId);
 
         $this->users->touchLastLogin($user->id);
-        // Lot 1 : le back-office /admin arrive au lot 3 → redirection unique vers /dashboard.
-        $this->redirect('/dashboard');
+        $this->redirect($user->isSuperAdmin ? '/admin' : '/dashboard');
     }
 
     public function logout(): void
