@@ -16,6 +16,7 @@ use App\Helpers\Renderer;
  */
 $nav = [
     ['dashboard', '/dashboard', 'Tableau de bord'],
+    ['employees', '/employes', 'Employés'],
 ];
 $library = [
     'Accueil', 'Vente', 'Marketing', 'Fidélisation', 'Offre & Services',

@@ -9,6 +9,7 @@ use App\Controllers\AdminEmployeesController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\InstallController;
+use App\Controllers\MemberEmployeesController;
 use App\Controllers\SiteController;
 
 /**
@@ -50,6 +51,9 @@ return [
     ['GET',  '/dashboard', [DashboardController::class, 'index'], true],
     ['GET',  '/compte', [AccountController::class, 'show'], true],
     ['POST', '/compte', [AccountController::class, 'update'], true],
+    ['GET',  '/employes', [MemberEmployeesController::class, 'index'], true],
+    ['POST', '/employes', [MemberEmployeesController::class, 'store'], true],
+    ['POST', '/employes/{id}/delete', [MemberEmployeesController::class, 'delete'], true],
 
     // -- Back-office super-admin : gestion des clubs --
     ['GET',  '/admin', [AdminController::class, 'index'], 'super-admin'],
