@@ -43,6 +43,22 @@ final class CategoryRepository
         return array_map([Category::class, 'fromRow'], $stmt->fetchAll());
     }
 
+    /**
+     * Liste aplatie pour un menu déroulant : chaque parent suivi de ses enfants.
+     * @return list<array{id:string,label:string,is_child:bool}>
+     */
+    public function flatList(): array
+    {
+        $out = [];
+        foreach ($this->topLevel() as $parent) {
+            $out[] = ['id' => $parent->id, 'label' => $parent->name, 'is_child' => false];
+            foreach ($this->children($parent->id) as $child) {
+                $out[] = ['id' => $child->id, 'label' => $child->name, 'is_child' => true];
+            }
+        }
+        return $out;
+    }
+
     public function countChildren(string $id): int
     {
         $stmt = $this->pdo()->prepare('SELECT COUNT(*) FROM categories WHERE parent_id = :p');

@@ -7,6 +7,7 @@ use App\Controllers\AdminCategoriesController;
 use App\Controllers\AdminClubsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminEmployeesController;
+use App\Controllers\AdminResourcesController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\InstallController;
@@ -67,6 +68,16 @@ return [
     ['POST', '/admin/clubs/{id}/resend', [AdminClubsController::class, 'resendInvitation'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/status', [AdminClubsController::class, 'setStatus'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/delete', [AdminClubsController::class, 'delete'], 'super-admin'],
+
+    // Ressources — contenus
+    ['GET',  '/admin/resources', [AdminResourcesController::class, 'index'], 'super-admin'],
+    ['GET',  '/admin/resources/new', [AdminResourcesController::class, 'showNew'], 'super-admin'],
+    ['POST', '/admin/resources', [AdminResourcesController::class, 'create'], 'super-admin'],
+    ['GET',  '/admin/resources/{id}/edit', [AdminResourcesController::class, 'edit'], 'super-admin'],
+    ['POST', '/admin/resources/{id}/update', [AdminResourcesController::class, 'update'], 'super-admin'],
+    ['POST', '/admin/resources/{id}/toggle-status', [AdminResourcesController::class, 'toggleStatus'], 'super-admin'],
+    ['POST', '/admin/resources/{id}/toggle-spotlight', [AdminResourcesController::class, 'toggleSpotlight'], 'super-admin'],
+    ['POST', '/admin/resources/{id}/delete', [AdminResourcesController::class, 'delete'], 'super-admin'],
 
     // Ressources — catégories / sous-catégories
     ['GET',  '/admin/categories', [AdminCategoriesController::class, 'index'], 'super-admin'],
