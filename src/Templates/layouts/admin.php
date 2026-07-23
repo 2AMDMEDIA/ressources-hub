@@ -14,6 +14,7 @@ use App\Helpers\Renderer;
  */
 $nav = [
     ['clubs', '/admin/clubs', 'Clubs'],
+    ['employees', '/admin/employees', 'Employés'],
 ];
 ?><!DOCTYPE html>
 <html lang="fr">

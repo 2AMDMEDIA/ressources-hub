@@ -102,6 +102,7 @@ final class ClubRepository
 
     public function delete(string $id): void
     {
+        $this->pdo()->prepare('DELETE FROM employees WHERE club_id = :id')->execute([':id' => $id]);
         $this->pdo()->prepare('DELETE FROM club_managers WHERE club_id = :id')->execute([':id' => $id]);
         $this->pdo()->prepare('DELETE FROM users WHERE club_id = :id')->execute([':id' => $id]);
         $this->pdo()->prepare('DELETE FROM clubs WHERE id = :id')->execute([':id' => $id]);

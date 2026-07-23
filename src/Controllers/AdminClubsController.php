@@ -116,10 +116,12 @@ final class AdminClubsController extends BaseController
             return;
         }
         $manager = (new ClubManagerRepository())->managerOf($club->id);
+        $employees = (new \App\Repositories\EmployeeRepository())->listByClub($club->id);
         $this->renderAdmin('pages.admin.clubs.detail', [
             'title' => $club->name,
             'club' => $club,
             'manager' => $manager,
+            'employees' => $employees,
         ], 'clubs', $club->name);
     }
 

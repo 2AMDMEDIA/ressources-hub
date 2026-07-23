@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Controllers\AccountController;
 use App\Controllers\AdminClubsController;
 use App\Controllers\AdminController;
+use App\Controllers\AdminEmployeesController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\InstallController;
@@ -61,4 +62,10 @@ return [
     ['POST', '/admin/clubs/{id}/resend', [AdminClubsController::class, 'resendInvitation'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/status', [AdminClubsController::class, 'setStatus'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/delete', [AdminClubsController::class, 'delete'], 'super-admin'],
+
+    // Employés (équipe des clubs)
+    ['GET',  '/admin/employees', [AdminEmployeesController::class, 'index'], 'super-admin'],
+    ['POST', '/admin/clubs/{clubId}/employees', [AdminEmployeesController::class, 'store'], 'super-admin'],
+    ['POST', '/admin/employees/{id}/update', [AdminEmployeesController::class, 'update'], 'super-admin'],
+    ['POST', '/admin/employees/{id}/delete', [AdminEmployeesController::class, 'delete'], 'super-admin'],
 ];

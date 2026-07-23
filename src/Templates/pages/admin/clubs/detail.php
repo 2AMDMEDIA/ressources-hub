@@ -115,6 +115,50 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
                 <button type="submit" class="btn btn--secondary btn--sm">Renvoyer l'invitation au manager</button>
             </form>
         <?php endif; ?>
+
+        <!-- Employés -->
+        <div class="card">
+            <div class="card__header">
+                <h3 class="card__title">Employés · <?= count($employees ?? []) ?></h3>
+            </div>
+            <?php if (!empty($employees)): ?>
+                <?php foreach ($employees as $emp): ?>
+                    <form method="POST" action="/admin/employees/<?= $e($emp->id) ?>/update" id="emp-<?= $e($emp->id) ?>">
+                        <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                    </form>
+                <?php endforeach; ?>
+                <table class="table">
+                    <thead><tr><th>Prénom</th><th>Nom</th><th>Fonction</th><th>Email</th><th></th></tr></thead>
+                    <tbody>
+                    <?php foreach ($employees as $emp): $fid = 'emp-' . $e($emp->id); ?>
+                        <tr>
+                            <td><input type="text" name="first_name" form="<?= $fid ?>" value="<?= $e($emp->firstName) ?>" required style="width:100px;"></td>
+                            <td><input type="text" name="last_name" form="<?= $fid ?>" value="<?= $e($emp->lastName) ?>" required style="width:100px;"></td>
+                            <td><input type="text" name="job_title" form="<?= $fid ?>" value="<?= $e($emp->jobTitle) ?>" style="width:120px;"></td>
+                            <td><input type="email" name="email" form="<?= $fid ?>" value="<?= $e($emp->email) ?>" style="width:160px;"></td>
+                            <td style="text-align:right;white-space:nowrap;">
+                                <button type="submit" form="<?= $fid ?>" class="btn btn--ghost btn--sm">Enreg.</button>
+                                <form method="POST" action="/admin/employees/<?= $e($emp->id) ?>/delete" style="display:inline;" onsubmit="return confirm('Retirer cet employé ?');">
+                                    <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                                    <button type="submit" class="btn btn--danger btn--sm">×</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+            <div class="card__body" style="border-top:1px solid var(--color-border);">
+                <form method="POST" action="/admin/clubs/<?= $e($club->id) ?>/employees" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+                    <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                    <label class="field" style="flex:1;min-width:100px;"><span class="field__label">Prénom</span><input type="text" name="first_name" required></label>
+                    <label class="field" style="flex:1;min-width:100px;"><span class="field__label">Nom</span><input type="text" name="last_name" required></label>
+                    <label class="field" style="flex:1;min-width:110px;"><span class="field__label">Fonction</span><input type="text" name="job_title"></label>
+                    <label class="field" style="flex:2;min-width:150px;"><span class="field__label">Email</span><input type="email" name="email"></label>
+                    <button type="submit" class="btn btn--primary">Ajouter</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div>
