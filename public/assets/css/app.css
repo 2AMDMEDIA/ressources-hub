@@ -1494,3 +1494,15 @@ a:hover { text-decoration: underline; }
     .msidebar-toggle:checked ~ .member-sidebar { left: 0; }
     .app-topbar__burger { display: flex; }
 }
+
+/* Gestionnaire de catégories (admin Ressources) */
+.cat-card { margin-bottom: 16px; }
+.cat-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.cat-form { display: flex; align-items: center; gap: 8px; margin: 0; flex: 1; }
+.pos-input { width: 56px; padding: 8px 8px; border: 1px solid var(--color-border); border-radius: 6px; font-size: 13px; text-align: center; }
+.cat-name-input { flex: 1; max-width: 340px; padding: 8px 10px; border: 1px solid var(--color-border); border-radius: 6px; font-size: 14px; }
+.subcat-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.subcat-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--color-bg); border-radius: 8px; }
+.subcat-row .cat-form { flex: 1; }
+.subcat-add { display: flex; gap: 8px; align-items: center; padding-top: 6px; border-top: 1px dashed var(--color-border); }
+.subcat-add input { flex: 1; max-width: 340px; padding: 8px 10px; border: 1px solid var(--color-border); border-radius: 6px; font-size: 14px; }

@@ -15,6 +15,7 @@ use App\Helpers\Renderer;
 $nav = [
     ['clubs', '/admin/clubs', 'Clubs'],
     ['employees', '/admin/employees', 'Employés'],
+    ['categories', '/admin/categories', 'Ressources'],
 ];
 ?><!DOCTYPE html>
 <html lang="fr">
@@ -38,7 +39,6 @@ $nav = [
                 </a>
             <?php endforeach; ?>
             <div class="sidebar__separator">Bientôt</div>
-            <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Ressources</span></span>
             <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Messages</span></span>
         </nav>
         <a href="/" class="sidebar__item sidebar__foot">← Voir le site public</a>

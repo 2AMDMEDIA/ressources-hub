@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Controllers\AccountController;
+use App\Controllers\AdminCategoriesController;
 use App\Controllers\AdminClubsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminEmployeesController;
@@ -66,6 +67,13 @@ return [
     ['POST', '/admin/clubs/{id}/resend', [AdminClubsController::class, 'resendInvitation'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/status', [AdminClubsController::class, 'setStatus'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/delete', [AdminClubsController::class, 'delete'], 'super-admin'],
+
+    // Ressources — catégories / sous-catégories
+    ['GET',  '/admin/categories', [AdminCategoriesController::class, 'index'], 'super-admin'],
+    ['POST', '/admin/categories', [AdminCategoriesController::class, 'store'], 'super-admin'],
+    ['POST', '/admin/categories/{id}/sub', [AdminCategoriesController::class, 'storeSub'], 'super-admin'],
+    ['POST', '/admin/categories/{id}/update', [AdminCategoriesController::class, 'update'], 'super-admin'],
+    ['POST', '/admin/categories/{id}/delete', [AdminCategoriesController::class, 'delete'], 'super-admin'],
 
     // Employés (équipe des clubs)
     ['GET',  '/admin/employees', [AdminEmployeesController::class, 'index'], 'super-admin'],
