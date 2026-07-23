@@ -48,7 +48,7 @@ $library = [
                 </a>
             <?php endforeach; ?>
 
-            <div class="sidebar__separator">Bibliothèque</div>
+            <div class="sidebar__separator">Ressources</div>
             <?php foreach ($library as $label): ?>
                 <span class="sidebar__item sidebar__item--disabled">
                     <span class="sidebar__label"><?= Renderer::escape($label) ?></span>
