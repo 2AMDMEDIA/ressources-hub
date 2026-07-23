@@ -38,7 +38,7 @@ $nav = [
                 </a>
             <?php endforeach; ?>
             <div class="sidebar__separator">Bientôt</div>
-            <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Bibliothèque</span></span>
+            <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Ressources</span></span>
             <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Messages</span></span>
         </nav>
         <a href="/" class="sidebar__item sidebar__foot">← Voir le site public</a>
