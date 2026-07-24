@@ -14,10 +14,13 @@ use App\Helpers\Renderer;
  * @var array{name:string,version:string,url:string} $app
  * @var string $content_html
  */
+$isManager = ($chrome['role'] ?? '') === 'club_owner' || !empty($chrome['is_super_admin']);
 $nav = [
     ['dashboard', '/dashboard', 'Tableau de bord'],
-    ['employees', '/employes', 'Employés'],
 ];
+if ($isManager) {
+    $nav[] = ['employees', '/employes', 'Employés'];
+}
 $library = [
     'Accueil', 'Vente', 'Marketing', 'Fidélisation', 'Offre & Services',
     'Ressources Humaines', 'Pilotage & KPI', 'Anticiper Demain',

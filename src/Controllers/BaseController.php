@@ -53,6 +53,7 @@ abstract class BaseController
             'user_name' => $user?->displayName() ?? (string) Session::get('user_full_name', ''),
             'user_email' => $user?->email ?? (string) Session::get('user_email', ''),
             'is_super_admin' => (bool) Session::get('is_super_admin', false),
+            'role' => $user?->role ?? (string) Session::get('role', ''),
             'club_name' => $club?->name,
         ];
 

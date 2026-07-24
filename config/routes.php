@@ -57,6 +57,7 @@ return [
     ['POST', '/compte', [AccountController::class, 'update'], true],
     ['GET',  '/employes', [MemberEmployeesController::class, 'index'], true],
     ['POST', '/employes', [MemberEmployeesController::class, 'store'], true],
+    ['POST', '/employes/{id}/grant-access', [MemberEmployeesController::class, 'grantAccess'], true],
     ['POST', '/employes/{id}/delete', [MemberEmployeesController::class, 'delete'], true],
 
     // -- Back-office super-admin : gestion des clubs --

@@ -80,6 +80,12 @@ final class EmployeeRepository
         ]);
     }
 
+    public function setUserId(string $id, ?string $userId): void
+    {
+        $stmt = $this->pdo()->prepare('UPDATE employees SET user_id = :uid, updated_at = NOW() WHERE id = :id');
+        $stmt->execute([':uid' => $userId, ':id' => $id]);
+    }
+
     public function delete(string $id): void
     {
         $this->pdo()->prepare('DELETE FROM employees WHERE id = :id')->execute([':id' => $id]);

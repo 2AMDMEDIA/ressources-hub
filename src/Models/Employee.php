@@ -9,6 +9,7 @@ final class Employee
     public function __construct(
         public string $id,
         public string $clubId,
+        public ?string $userId,
         public string $firstName,
         public string $lastName,
         public ?string $email,
@@ -23,6 +24,7 @@ final class Employee
         return new self(
             id: $row['id'],
             clubId: $row['club_id'],
+            userId: $row['user_id'] ?? null,
             firstName: $row['first_name'],
             lastName: $row['last_name'],
             email: $row['email'] ?? null,
@@ -35,5 +37,11 @@ final class Employee
     public function fullName(): string
     {
         return trim($this->firstName . ' ' . $this->lastName);
+    }
+
+    /** L'employé a-t-il un compte de connexion ? */
+    public function hasAccess(): bool
+    {
+        return $this->userId !== null;
     }
 }

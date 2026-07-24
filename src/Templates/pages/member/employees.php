@@ -29,17 +29,25 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
             </div>
         <?php else: ?>
             <table class="table">
-                <thead><tr><th>Employé</th><th>Fonction</th><th>Email</th><th></th></tr></thead>
+                <thead><tr><th>Employé</th><th>Fonction</th><th>Accès</th><th></th></tr></thead>
                 <tbody>
                 <?php foreach ($employees as $emp): ?>
                     <tr>
-                        <td><strong><?= $e($emp->fullName()) ?></strong></td>
+                        <td>
+                            <strong><?= $e($emp->fullName()) ?></strong>
+                            <?php if ($emp->email): ?><br><span style="color:var(--color-text-muted);font-size:12px;"><?= $e($emp->email) ?></span><?php endif; ?>
+                        </td>
                         <td><?= $e($emp->jobTitle) ?: '<span style="color:var(--color-text-muted)">—</span>' ?></td>
                         <td>
-                            <?php if ($emp->email): ?>
-                                <a href="mailto:<?= $e($emp->email) ?>"><?= $e($emp->email) ?></a>
+                            <?php if ($emp->hasAccess()): ?>
+                                <span class="badge badge--green">A un accès</span>
+                            <?php elseif ($emp->email): ?>
+                                <form method="POST" action="/employes/<?= $e($emp->id) ?>/grant-access" style="display:inline;" onsubmit="return confirm('Envoyer un accès à <?= $e($emp->fullName()) ?> ?');">
+                                    <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                                    <button type="submit" class="btn btn--secondary btn--sm">Donner un accès</button>
+                                </form>
                             <?php else: ?>
-                                <span style="color:var(--color-text-muted)">—</span>
+                                <span style="color:var(--color-text-muted);font-size:12px;">email requis</span>
                             <?php endif; ?>
                         </td>
                         <td style="text-align:right;">
