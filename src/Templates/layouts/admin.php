@@ -43,6 +43,9 @@ $nav = [
             <a href="/admin/settings" class="sidebar__item<?= $admin['active'] === 'settings' ? ' sidebar__item--active' : '' ?>">
                 <span class="sidebar__label">Paramètres</span>
             </a>
+            <a href="/admin/migrations" class="sidebar__item<?= $admin['active'] === 'migrations' ? ' sidebar__item--active' : '' ?>">
+                <span class="sidebar__label">Migrations</span>
+            </a>
 
             <div class="sidebar__separator">Bientôt</div>
             <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Messages</span></span>

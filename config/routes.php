@@ -7,6 +7,7 @@ use App\Controllers\AdminCategoriesController;
 use App\Controllers\AdminClubsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminEmployeesController;
+use App\Controllers\AdminMigrationsController;
 use App\Controllers\AdminResourcesController;
 use App\Controllers\AdminSettingsController;
 use App\Controllers\AuthController;
@@ -74,6 +75,10 @@ return [
     ['GET',  '/admin/settings', [AdminSettingsController::class, 'index'], 'super-admin'],
     ['POST', '/admin/settings/super-admins', [AdminSettingsController::class, 'createSuperAdmin'], 'super-admin'],
     ['POST', '/admin/settings/super-admins/{id}/remove', [AdminSettingsController::class, 'removeSuperAdmin'], 'super-admin'],
+
+    // Migrations base de données
+    ['GET',  '/admin/migrations', [AdminMigrationsController::class, 'index'], 'super-admin'],
+    ['POST', '/admin/migrations/run', [AdminMigrationsController::class, 'run'], 'super-admin'],
 
     // Ressources — contenus
     ['GET',  '/admin/resources', [AdminResourcesController::class, 'index'], 'super-admin'],
