@@ -39,6 +39,11 @@ $nav = [
                     <span class="sidebar__label"><?= Renderer::escape($label) ?></span>
                 </a>
             <?php endforeach; ?>
+            <div class="sidebar__separator">Configuration</div>
+            <a href="/admin/settings" class="sidebar__item<?= $admin['active'] === 'settings' ? ' sidebar__item--active' : '' ?>">
+                <span class="sidebar__label">Paramètres</span>
+            </a>
+
             <div class="sidebar__separator">Bientôt</div>
             <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Messages</span></span>
         </nav>

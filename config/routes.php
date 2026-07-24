@@ -8,6 +8,7 @@ use App\Controllers\AdminClubsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminEmployeesController;
 use App\Controllers\AdminResourcesController;
+use App\Controllers\AdminSettingsController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\InstallController;
@@ -68,6 +69,11 @@ return [
     ['POST', '/admin/clubs/{id}/resend', [AdminClubsController::class, 'resendInvitation'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/status', [AdminClubsController::class, 'setStatus'], 'super-admin'],
     ['POST', '/admin/clubs/{id}/delete', [AdminClubsController::class, 'delete'], 'super-admin'],
+
+    // Paramètres — comptes super-admin
+    ['GET',  '/admin/settings', [AdminSettingsController::class, 'index'], 'super-admin'],
+    ['POST', '/admin/settings/super-admins', [AdminSettingsController::class, 'createSuperAdmin'], 'super-admin'],
+    ['POST', '/admin/settings/super-admins/{id}/remove', [AdminSettingsController::class, 'removeSuperAdmin'], 'super-admin'],
 
     // Ressources — contenus
     ['GET',  '/admin/resources', [AdminResourcesController::class, 'index'], 'super-admin'],

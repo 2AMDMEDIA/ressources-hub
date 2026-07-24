@@ -65,6 +65,18 @@ final class UserRepository
         $this->pdo()->prepare('DELETE FROM users WHERE id = :id')->execute([':id' => $userId]);
     }
 
+    /** @return list<User> */
+    public function listSuperAdmins(): array
+    {
+        $rows = $this->pdo()->query('SELECT * FROM users WHERE is_super_admin = 1 ORDER BY created_at ASC')->fetchAll();
+        return array_map([User::class, 'fromRow'], $rows);
+    }
+
+    public function countSuperAdmins(): int
+    {
+        return (int) $this->pdo()->query('SELECT COUNT(*) FROM users WHERE is_super_admin = 1')->fetchColumn();
+    }
+
     /**
      * Crée un utilisateur.
      *
