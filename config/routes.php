@@ -33,6 +33,7 @@ return [
     // -- Site vitrine public (accessible à tous) --
     ['GET',  '/', [SiteController::class, 'home'], false],
     ['GET',  '/experts', [SiteController::class, 'experts'], false],
+    ['GET',  '/programmes', [SiteController::class, 'programs'], false],
     ['GET',  '/prix', [SiteController::class, 'pricing'], false],
     ['GET',  '/contact', [SiteController::class, 'contact'], false],
     ['POST', '/contact', [SiteController::class, 'submitContact'], false],

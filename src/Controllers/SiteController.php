@@ -90,6 +90,14 @@ final class SiteController extends BaseController
         ], 'experts');
     }
 
+    public function programs(): void
+    {
+        $this->renderPublic('pages.site.programs', [
+            'title' => 'Programmes — RESSOURCES',
+            'domains' => self::DOMAINS,
+        ], 'programmes');
+    }
+
     public function pricing(): void
     {
         $this->renderPublic('pages.site.pricing', [

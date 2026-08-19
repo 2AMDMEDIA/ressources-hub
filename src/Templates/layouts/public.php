@@ -29,6 +29,7 @@ $brand = function (string $variant = 'light'): string {
 $links = [
     ['/', 'Accueil', 'home'],
     ['/experts', 'Nos experts', 'experts'],
+    ['/programmes', 'Programmes', 'programmes'],
     ['/prix', 'Tarif', 'prix'],
     ['/contact', 'Contact', 'contact'],
 ];
