@@ -47,6 +47,11 @@ abstract class BaseController
         $user = Membership::currentUser();
         $club = Membership::currentClub();
 
+        $categories = [];
+        foreach ((new \App\Repositories\CategoryRepository())->topLevel() as $c) {
+            $categories[] = ['slug' => $c->slug, 'name' => $c->name];
+        }
+
         $chrome = [
             'active' => $options['active'] ?? '',
             'page_title' => $options['page_title'] ?? ($data['title'] ?? 'RESSOURCES'),
@@ -55,6 +60,7 @@ abstract class BaseController
             'is_super_admin' => (bool) Session::get('is_super_admin', false),
             'role' => $user?->role ?? (string) Session::get('role', ''),
             'club_name' => $club?->name,
+            'categories' => $categories,
         ];
 
         $this->render($view, layout: 'layouts.app', data: array_merge($data, [

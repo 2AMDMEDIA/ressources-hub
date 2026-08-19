@@ -21,11 +21,7 @@ $nav = [
 if ($isManager) {
     $nav[] = ['employees', '/employes', 'Employés'];
 }
-$library = [
-    'Accueil', 'Vente', 'Marketing', 'Fidélisation', 'Offre & Services',
-    'Ressources Humaines', 'Pilotage & KPI', 'Anticiper Demain',
-    'Création & Lancement', 'Masterclasses & Lives',
-];
+$categories = $chrome['categories'] ?? [];
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -53,11 +49,11 @@ $library = [
             <?php endforeach; ?>
 
             <div class="sidebar__separator">Ressources</div>
-            <?php foreach ($library as $label): ?>
-                <span class="sidebar__item sidebar__item--disabled">
-                    <span class="sidebar__label"><?= Renderer::escape($label) ?></span>
-                    <span class="sidebar__badge">Bientôt</span>
-                </span>
+            <?php foreach ($categories as $cat): ?>
+                <a href="/ressources/<?= Renderer::escape($cat['slug']) ?>"
+                   class="sidebar__item<?= ($chrome['active'] ?? '') === 'category:' . $cat['slug'] ? ' sidebar__item--active' : '' ?>">
+                    <span class="sidebar__label"><?= Renderer::escape($cat['name']) ?></span>
+                </a>
             <?php endforeach; ?>
 
             <div class="sidebar__separator">Mon espace</div>

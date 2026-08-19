@@ -14,6 +14,7 @@ use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\InstallController;
 use App\Controllers\MemberEmployeesController;
+use App\Controllers\MemberLibraryController;
 use App\Controllers\SiteController;
 
 /**
@@ -59,6 +60,11 @@ return [
     ['POST', '/employes', [MemberEmployeesController::class, 'store'], true],
     ['POST', '/employes/{id}/grant-access', [MemberEmployeesController::class, 'grantAccess'], true],
     ['POST', '/employes/{id}/delete', [MemberEmployeesController::class, 'delete'], true],
+
+    // Bibliothèque membre
+    ['GET',  '/ressources/{slug}', [MemberLibraryController::class, 'category'], true],
+    ['GET',  '/ressource/{id}', [MemberLibraryController::class, 'resource'], true],
+    ['GET',  '/ressource/{id}/download', [MemberLibraryController::class, 'download'], true],
 
     // -- Back-office super-admin : gestion des clubs --
     ['GET',  '/admin', [AdminController::class, 'index'], 'super-admin'],

@@ -33,6 +33,14 @@ final class CategoryRepository
         return array_map([Category::class, 'fromRow'], $rows);
     }
 
+    public function findBySlug(string $slug): ?Category
+    {
+        $stmt = $this->pdo()->prepare('SELECT * FROM categories WHERE slug = :s LIMIT 1');
+        $stmt->execute([':s' => $slug]);
+        $row = $stmt->fetch();
+        return $row ? Category::fromRow($row) : null;
+    }
+
     /** @return list<Category> Sous-catégories d'un parent, ordonnées. */
     public function children(string $parentId): array
     {

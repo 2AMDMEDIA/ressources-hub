@@ -44,6 +44,27 @@ final class ResourceRepository
         return $stmt->fetchAll();
     }
 
+    /**
+     * Ressources publiées appartenant à l'une des catégories données.
+     * @param list<string> $categoryIds
+     * @return list<Resource>
+     */
+    public function listPublishedByCategories(array $categoryIds): array
+    {
+        $categoryIds = array_values(array_filter($categoryIds));
+        if ($categoryIds === []) {
+            return [];
+        }
+        $in = implode(',', array_fill(0, count($categoryIds), '?'));
+        $stmt = $this->pdo()->prepare(
+            "SELECT * FROM resources
+             WHERE status = 'published' AND category_id IN ($in)
+             ORDER BY is_spotlight DESC, COALESCE(published_at, created_at) DESC"
+        );
+        $stmt->execute($categoryIds);
+        return array_map([Resource::class, 'fromRow'], $stmt->fetchAll());
+    }
+
     /** @param array<string,mixed> $d */
     public function create(array $d): string
     {
