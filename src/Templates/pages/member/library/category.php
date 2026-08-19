@@ -46,6 +46,9 @@ $badgeByFormat = [
                 </div>
                 <div class="res-card__body">
                     <h3 class="res-card__title"><?= $e($r->title) ?></h3>
+                    <?php if ($r->description): ?>
+                        <p class="res-card__desc"><?= $e($r->description) ?></p>
+                    <?php endif; ?>
                     <div class="res-card__meta">
                         <span class="badge badge--<?= $badgeByFormat[$r->format] ?? 'gray' ?>"><?= $e($r->formatLabel()) ?></span>
                         <?php if ($r->levelLabel()): ?><span class="badge badge--gray"><?= $e($r->levelLabel()) ?></span><?php endif; ?>
