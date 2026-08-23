@@ -120,9 +120,11 @@ final class SiteController extends BaseController
         $ownResources = $resRepo->listPublishedByCategories([$category->id]);
         $childrenBlocks = [];
         foreach ($children as $child) {
+            $childRes = $resRepo->listPublishedByCategories([$child->id]);
             $childrenBlocks[] = [
                 'cat' => $child,
-                'resources' => $resRepo->listPublishedByCategories([$child->id]),
+                'resources' => array_slice($childRes, 0, 3), // 3 max par sous-catégorie
+                'total' => count($childRes),
             ];
         }
 

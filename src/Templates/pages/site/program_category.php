@@ -88,7 +88,7 @@ $resourceCards = function (array $resources) use ($e, $is_member): void {
             <div class="prog-block">
                 <div class="prog-block__head">
                     <h3 class="prog-block__title"><?= $e($block['cat']->name) ?></h3>
-                    <a href="/programmes/<?= $e($block['cat']->slug) ?>" class="btn btn--outline btn--sm">Voir tout</a>
+                    <a href="/programmes/<?= $e($block['cat']->slug) ?>" class="btn btn--outline btn--sm">Voir tout<?= ($block['total'] ?? 0) > 3 ? ' (' . (int) $block['total'] . ')' : '' ?></a>
                 </div>
                 <?php if ($block['cat']->shortDescription): ?>
                     <p style="color:var(--muted);margin:0 0 14px;"><?= $e($block['cat']->shortDescription) ?></p>
