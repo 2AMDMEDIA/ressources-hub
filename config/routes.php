@@ -41,6 +41,7 @@ return [
     ['GET',  '/prix', [SiteController::class, 'pricing'], false],
     ['GET',  '/contact', [SiteController::class, 'contact'], false],
     ['POST', '/contact', [SiteController::class, 'submitContact'], false],
+    ['GET',  '/mon-espace', [SiteController::class, 'account'], false],
 
     // Installation one-shot (token-protégée via INSTALL_TOKEN dans .env)
     ['GET',  '/install', [InstallController::class, 'show'], false],

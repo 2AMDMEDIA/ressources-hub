@@ -7,8 +7,10 @@ namespace App\Controllers;
 use App\Helpers\Csrf;
 use App\Helpers\Renderer;
 use App\Repositories\CategoryRepository;
+use App\Repositories\ClubRepository;
 use App\Repositories\ContactMessageRepository;
 use App\Repositories\ResourceRepository;
+use App\Repositories\UserRepository;
 use App\Services\Mailer;
 use App\Session;
 
@@ -143,6 +145,26 @@ final class SiteController extends BaseController
             'breadcrumb' => $breadcrumb,
             'is_member' => $isMember,
         ], 'programmes');
+    }
+
+    /** « Mon espace » (layout public) : infos du membre connecté. */
+    public function account(): void
+    {
+        if (!Session::isLoggedIn()) {
+            $this->redirect('/login');
+        }
+        $user = (new UserRepository())->findById((string) Session::userId());
+        if ($user === null) {
+            Session::destroy();
+            $this->redirect('/login');
+        }
+        $club = $user->clubId !== null ? (new ClubRepository())->findById($user->clubId) : null;
+
+        $this->renderPublic('pages.site.account', [
+            'title' => 'Mon espace — RESSOURCES',
+            'user' => $user,
+            'club' => $club,
+        ], '');
     }
 
     /** Page d'une ressource (layout public) — réservée aux membres authentifiés. */

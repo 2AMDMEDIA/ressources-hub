@@ -45,7 +45,7 @@ $links = [
                 <?php endforeach; ?>
 
                 <?php if ($nav['is_logged_in']): ?>
-                    <a href="/dashboard" class="btn btn--accent btn--sm site-nav__cta">Mon espace</a>
+                    <a href="/mon-espace" class="btn btn--accent btn--sm site-nav__cta">Mon espace</a>
                 <?php else: ?>
                     <details class="login-pop">
                         <summary class="btn btn--outline btn--sm">Espace membres</summary>
