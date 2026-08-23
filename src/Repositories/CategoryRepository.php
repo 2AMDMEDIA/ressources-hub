@@ -33,6 +33,13 @@ final class CategoryRepository
         return array_map([Category::class, 'fromRow'], $rows);
     }
 
+    /** @return list<Category> Toutes les catégories, ordonnées. */
+    public function all(): array
+    {
+        $rows = $this->pdo()->query('SELECT * FROM categories ORDER BY position ASC, name ASC')->fetchAll();
+        return array_map([Category::class, 'fromRow'], $rows);
+    }
+
     public function findBySlug(string $slug): ?Category
     {
         $stmt = $this->pdo()->prepare('SELECT * FROM categories WHERE slug = :s LIMIT 1');
@@ -52,19 +59,45 @@ final class CategoryRepository
     }
 
     /**
-     * Liste aplatie pour un menu déroulant : chaque parent suivi de ses enfants.
-     * @return list<array{id:string,label:string,is_child:bool}>
+     * Liste aplatie et indentée pour un menu déroulant — profondeur illimitée.
+     * @return list<array{id:string,label:string,depth:int,is_child:bool}>
      */
     public function flatList(): array
     {
-        $out = [];
-        foreach ($this->topLevel() as $parent) {
-            $out[] = ['id' => $parent->id, 'label' => $parent->name, 'is_child' => false];
-            foreach ($this->children($parent->id) as $child) {
-                $out[] = ['id' => $child->id, 'label' => $child->name, 'is_child' => true];
-            }
+        $all = $this->all();
+        $byParent = [];
+        foreach ($all as $c) {
+            $byParent[$c->parentId ?? ''][] = $c;
         }
+        $out = [];
+        $walk = function (?string $parentId, int $depth) use (&$walk, &$out, $byParent): void {
+            foreach ($byParent[$parentId ?? ''] ?? [] as $cat) {
+                $out[] = ['id' => $cat->id, 'label' => $cat->name, 'depth' => $depth, 'is_child' => $depth > 0];
+                $walk($cat->id, $depth + 1);
+            }
+        };
+        $walk(null, 0);
         return $out;
+    }
+
+    /**
+     * Arbre imbriqué complet (profondeur illimitée).
+     * @return list<array{cat:Category,children:array}>
+     */
+    public function tree(): array
+    {
+        $byParent = [];
+        foreach ($this->all() as $c) {
+            $byParent[$c->parentId ?? ''][] = $c;
+        }
+        $build = function (?string $parentId) use (&$build, $byParent): array {
+            $nodes = [];
+            foreach ($byParent[$parentId ?? ''] ?? [] as $cat) {
+                $nodes[] = ['cat' => $cat, 'children' => $build($cat->id)];
+            }
+            return $nodes;
+        };
+        return $build(null);
     }
 
     public function countChildren(string $id): int
@@ -96,13 +129,29 @@ final class CategoryRepository
         return $cat;
     }
 
-    public function update(string $id, string $name, int $position): void
+    /**
+     * Met à jour une catégorie. Le slug reste stable au renommage.
+     * @param array<string,mixed> $data clés: short_description, long_description, thumbnail_url, intro_video_id
+     */
+    public function update(string $id, string $name, int $position, array $data = []): void
     {
-        // Le slug reste stable au renommage (évite de casser d'éventuels liens).
-        $stmt = $this->pdo()->prepare(
-            'UPDATE categories SET name = :name, position = :pos, updated_at = NOW() WHERE id = :id'
-        );
-        $stmt->execute([':name' => $name, ':pos' => $position, ':id' => $id]);
+        $sets = 'name = :name, position = :pos, short_description = :short,
+                 long_description = :long, intro_video_id = :video, updated_at = NOW()';
+        $params = [
+            ':name' => $name,
+            ':pos' => $position,
+            ':short' => ($data['short_description'] ?? null) ?: null,
+            ':long' => ($data['long_description'] ?? null) ?: null,
+            ':video' => ($data['intro_video_id'] ?? null) ?: null,
+            ':id' => $id,
+        ];
+        // La miniature n'est mise à jour que si une nouvelle image a été fournie.
+        if (array_key_exists('thumbnail_url', $data)) {
+            $sets .= ', thumbnail_url = :thumb';
+            $params[':thumb'] = $data['thumbnail_url'] ?: null;
+        }
+        $stmt = $this->pdo()->prepare("UPDATE categories SET $sets WHERE id = :id");
+        $stmt->execute($params);
     }
 
     public function delete(string $id): void

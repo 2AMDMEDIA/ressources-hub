@@ -6,7 +6,9 @@ namespace App\Controllers;
 
 use App\Helpers\Csrf;
 use App\Helpers\Renderer;
+use App\Repositories\CategoryRepository;
 use App\Repositories\ContactMessageRepository;
+use App\Repositories\ResourceRepository;
 use App\Services\Mailer;
 use App\Session;
 
@@ -28,16 +30,16 @@ final class SiteController extends BaseController
 
     /** Les 10 domaines « 100% terrain » de la plaquette. */
     private const DOMAINS = [
-        ['Hospitality', 'Qualité de service et expérience membre au quotidien.'],
-        ['Ressources humaines', 'Recrutement, intégration et management des équipes terrain.'],
-        ['Process de vente', 'Structurer et fiabiliser le parcours commercial.'],
-        ['Vente additionnelle', 'Développer le panier moyen et les revenus complémentaires.'],
-        ['Communication', 'Communication locale et présence sur les réseaux.'],
-        ['Marketing', 'Acquisition, positionnement et campagnes saisonnières.'],
-        ['Services sportifs', 'Offre de cours, planning et différenciation sportive.'],
-        ['Piloter le club / KPI', 'Indicateurs clés, tableaux de bord et rentabilité.'],
-        ['Anticiper demain', 'Tendances marché, veille et opportunités de croissance.'],
-        ['Création', 'Ouverture de club, concept et business plan.'],
+        ['HOSPITALITY & ACCUEIL', 'Qualité de service et expérience membre au quotidien.'],
+        ['RH & MANAGEMENT', 'Les enjeux humains et managériaux au cœur de la performance.'],
+        ['PROSPECTION & CLOSING', 'Structurer et fiabiliser le parcours commercial.'],
+        ['LEVIERS DE CROISSANCE ADDITIONNELLE', 'Développer le panier moyen et les revenus complémentaires.'],
+        ['EXPÉRIENCES & SERVICES SPORTIFS', 'L\'expérience sportive au service de la fidélisation client.'],
+        ['COMMUNICATION & MARKETING', 'Positionnement communication locale et campagnes annuelles.'],
+        ['RÉFÉRENCEMENT & TUNNELS DE VENTE', 'Acquisition, process et optimisation des leads.'],
+        ['PILOTER LE CLUB & KPI', 'Indicateurs clés, tableaux de bord et rentabilité.'],
+        ['ANTICIPER DEMAIN', 'Tendances marché, veille et opportunités de croissance.'],
+        ['CRÉATION', 'Ouverture de club, concept et business plan.'],
     ];
 
     /**
@@ -94,8 +96,88 @@ final class SiteController extends BaseController
     {
         $this->renderPublic('pages.site.programs', [
             'title' => 'Programmes — RESSOURCES',
-            'domains' => self::DOMAINS,
+            'categories' => (new CategoryRepository())->topLevel(),
         ], 'programmes');
+    }
+
+    /** Page d'une catégorie de programme : vitrine publique + contenu verrouillé. */
+    public function programCategory(string $slug): void
+    {
+        $repo = new CategoryRepository();
+        $category = $repo->findBySlug($slug);
+        if ($category === null) {
+            $this->redirect('/programmes');
+        }
+
+        $children = $repo->children($category->id);
+        $isMember = Session::isLoggedIn();
+
+        // Vidéo + description + cartes ressources sont publiques ; seul l'accès
+        // au contenu d'une ressource (clic) exige d'être authentifié.
+        $resRepo = new ResourceRepository();
+        $ownResources = $resRepo->listPublishedByCategories([$category->id]);
+        $childrenBlocks = [];
+        foreach ($children as $child) {
+            $childrenBlocks[] = [
+                'cat' => $child,
+                'resources' => $resRepo->listPublishedByCategories([$child->id]),
+            ];
+        }
+
+        // Fil d'ariane
+        $breadcrumb = [];
+        $cur = $category->parentId;
+        while ($cur !== null) {
+            $p = $repo->findById($cur);
+            if ($p === null) break;
+            array_unshift($breadcrumb, $p);
+            $cur = $p->parentId;
+        }
+
+        $this->renderPublic('pages.site.program_category', [
+            'title' => $category->name . ' — RESSOURCES',
+            'category' => $category,
+            'children' => $children,
+            'children_blocks' => $childrenBlocks,
+            'own_resources' => $ownResources,
+            'breadcrumb' => $breadcrumb,
+            'is_member' => $isMember,
+        ], 'programmes');
+    }
+
+    /** Page d'une ressource (layout public) — réservée aux membres authentifiés. */
+    public function programResource(string $id): void
+    {
+        \App\Middleware\Membership::guard(); // login + club actif requis
+        $resource = (new ResourceRepository())->findById($id);
+        if ($resource === null || !$resource->isPublished()) {
+            $this->redirect('/programmes');
+        }
+        $repo = new CategoryRepository();
+        $category = $resource->categoryId !== null ? $repo->findById($resource->categoryId) : null;
+
+        // Chemin complet des catégories (ancêtres jusqu'à la catégorie de la ressource incluse).
+        $breadcrumb = [];
+        $cur = $category;
+        while ($cur !== null) {
+            array_unshift($breadcrumb, $cur);
+            $cur = $cur->parentId !== null ? $repo->findById($cur->parentId) : null;
+        }
+
+        $this->renderPublic('pages.site.program_resource', [
+            'title' => $resource->title . ' — RESSOURCES',
+            'resource' => $resource,
+            'category' => $category,
+            'breadcrumb' => $breadcrumb,
+        ], 'programmes');
+    }
+
+    public function fonction(): void
+    {
+        $this->renderPublic('pages.site.fonction', [
+            'title' => 'Fonction — RESSOURCES',
+            'domains' => self::DOMAINS,
+        ], 'fonction');
     }
 
     public function pricing(): void
@@ -129,29 +211,28 @@ final class SiteController extends BaseController
             $this->redirect('/contact?sent=1');
         }
 
-        $name = $this->input('name');
+        $club = $this->input('club');            // Nom du club
+        $clubAddress = $this->input('club_address'); // Adresse du club
+        $name = $this->input('name');            // Nom du manager
+        $firstName = $this->input('first_name'); // Prénom
         $email = $this->input('email');
-        $message = $this->input('message');
         $phone = $this->input('phone');
-        $club = $this->input('club');
-        $subject = $this->input('subject') ?? 'Demande via le site';
+        $message = $this->input('message');
 
         $errors = [];
-        if ($name === null) {
-            $errors[] = 'Votre nom est requis.';
-        }
-        if ($email === null || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'Un email valide est requis.';
-        }
-        if ($message === null || mb_strlen($message) < 10) {
-            $errors[] = 'Merci de détailler un peu votre demande (10 caractères minimum).';
-        }
+        if ($club === null)        { $errors[] = 'Le nom du club est requis.'; }
+        if ($clubAddress === null) { $errors[] = 'L\'adresse du club est requise.'; }
+        if ($name === null)        { $errors[] = 'Le nom du manager est requis.'; }
+        if ($firstName === null)   { $errors[] = 'Le prénom est requis.'; }
+        if ($email === null || !filter_var($email, FILTER_VALIDATE_EMAIL)) { $errors[] = 'Un email valide est requis.'; }
+        if ($phone === null)       { $errors[] = 'Le téléphone est requis.'; }
+        if ($message === null || mb_strlen($message) < 10) { $errors[] = 'Merci de détailler un peu votre demande (10 caractères minimum).'; }
 
         if ($errors !== []) {
             foreach ($errors as $e) {
                 $this->flashError($e);
             }
-            Session::set('contact_old', compact('name', 'email', 'phone', 'club', 'subject', 'message'));
+            Session::set('contact_old', compact('club', 'clubAddress', 'name', 'firstName', 'email', 'phone', 'message'));
             $this->redirect('/contact');
         }
 
@@ -159,10 +240,12 @@ final class SiteController extends BaseController
         try {
             (new ContactMessageRepository())->create([
                 'name' => (string) $name,
+                'first_name' => $firstName,
                 'email' => (string) $email,
                 'phone' => $phone,
                 'club' => $club,
-                'subject' => $subject,
+                'club_address' => $clubAddress,
+                'subject' => null,
                 'message' => (string) $message,
                 'ip' => $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
@@ -173,13 +256,13 @@ final class SiteController extends BaseController
         // Notification email à l'équipe RESSOURCES.
         try {
             $body = '<h2>Nouveau message via le site RESSOURCES</h2>'
-                . '<p><strong>Nom :</strong> ' . Renderer::escape($name) . '</p>'
+                . '<p><strong>Club :</strong> ' . Renderer::escape($club) . '</p>'
+                . '<p><strong>Adresse du club :</strong> ' . Renderer::escape($clubAddress) . '</p>'
+                . '<p><strong>Manager :</strong> ' . Renderer::escape($firstName) . ' ' . Renderer::escape($name) . '</p>'
                 . '<p><strong>Email :</strong> ' . Renderer::escape($email) . '</p>'
-                . '<p><strong>Téléphone :</strong> ' . Renderer::escape($phone ?? '—') . '</p>'
-                . '<p><strong>Club :</strong> ' . Renderer::escape($club ?? '—') . '</p>'
-                . '<p><strong>Sujet :</strong> ' . Renderer::escape($subject) . '</p>'
+                . '<p><strong>Téléphone :</strong> ' . Renderer::escape($phone) . '</p>'
                 . '<p><strong>Message :</strong><br>' . nl2br(Renderer::escape($message)) . '</p>';
-            (new Mailer())->send(self::CONTACT['email'], self::CONTACT['company'], 'Contact site — ' . $subject, $body);
+            (new Mailer())->send(self::CONTACT['email'], self::CONTACT['company'], 'Contact site — ' . $club, $body);
         } catch (\Throwable $e) {
             error_log('Contact email échoué : ' . $e->getMessage());
         }

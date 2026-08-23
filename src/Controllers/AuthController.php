@@ -29,7 +29,7 @@ final class AuthController extends BaseController
     public function showLogin(): void
     {
         if (Session::isLoggedIn()) {
-            $this->redirect('/dashboard');
+            $this->redirect(Session::get('is_super_admin', false) ? '/admin' : '/programmes');
         }
         $this->render('pages.auth.login', layout: 'layouts.auth', data: [
             'title' => 'Connexion',
@@ -71,7 +71,8 @@ final class AuthController extends BaseController
         Session::set('club_id', $user->clubId);
 
         $this->users->touchLastLogin($user->id);
-        $this->redirect($user->isSuperAdmin ? '/admin' : '/dashboard');
+        // Admin -> back-office ; manager/employé -> front (page Programmes).
+        $this->redirect($user->isSuperAdmin ? '/admin' : '/programmes');
     }
 
     public function logout(): void

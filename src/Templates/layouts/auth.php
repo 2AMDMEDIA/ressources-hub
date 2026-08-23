@@ -20,8 +20,7 @@ use App\Helpers\Renderer;
     <main class="auth-shell">
         <div class="auth-card">
             <header class="auth-header">
-                <h1 class="auth-brand"><?= Renderer::escape($app['name']) ?></h1>
-                <p class="auth-version">v<?= Renderer::escape($app['version']) ?></p>
+                <img src="/assets/img/logo.png" alt="RESSOURCES by Fitness Challenges" class="auth-logo">
             </header>
 
             <?php if (!empty($flashes)): ?>

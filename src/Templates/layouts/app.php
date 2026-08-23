@@ -34,8 +34,8 @@ $categories = $chrome['categories'] ?? [];
 <div class="app-shell">
     <input type="checkbox" id="msidebar" class="msidebar-toggle" hidden>
     <aside class="sidebar member-sidebar">
-        <div class="sidebar__brand">
-            <span class="sidebar__brand-name">RESSOURCES</span>
+        <div class="sidebar__brand sidebar__brand--logo">
+            <img src="/assets/img/logo-white.png" alt="RESSOURCES" class="sidebar__logo">
             <span class="sidebar__brand-version">Espace membre</span>
         </div>
         <?php if (!empty($chrome['club_name'])): ?>

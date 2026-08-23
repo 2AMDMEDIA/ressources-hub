@@ -6,7 +6,7 @@ use App\Helpers\Renderer;
 ?>
 <section class="hero">
     <div class="hero__inner">
-        <p class="eyebrow">by Fitness Challenges</p>
+        <p class="hero__baseline">Échanger, S'entraîner, Performer.</p>
         <h1 class="hero__title">Moins de solitude,<br>plus de lucidité,<br><span class="tx-orange">meilleures décisions.</span></h1>
         <p class="hero__lead">
             Le comité d'experts stratégique externalisé pour les dirigeants, exploitants,
@@ -16,10 +16,6 @@ use App\Helpers\Renderer;
             <a href="/prix" class="btn btn--accent btn--lg">Découvrir l'offre</a>
             <a href="/contact" class="btn btn--outline btn--lg">Nous contacter</a>
         </div>
-        <p class="hero__audience">
-            <span class="chev">›</span> Pour les <strong>dirigeants</strong> de clubs, les <strong>exploitants</strong>,
-            les <strong>managers</strong> et les <strong>équipes terrain</strong>.
-        </p>
     </div>
 </section>
 
@@ -54,17 +50,16 @@ use App\Helpers\Renderer;
             <h2 class="section__title">Une offre simple, claire.</h2>
             <p>Un audit initial pour partir du réel, puis un suivi, des conseils et un
                support permanent tout au long de l'année.</p>
-            <a href="/prix" class="btn btn--navy btn--lg">Voir le détail des tarifs</a>
+            <a href="/prix" class="btn btn--navy btn--lg">Offre de lancement</a>
         </div>
         <div class="offer-teaser__price">
             <div class="price-badge">
-                <span class="price-badge__label">1er mois</span>
-                <span class="price-badge__amount">490€</span>
-                <span class="price-badge__strike">au lieu de 990€</span>
+                <span class="price-badge__label">1er mois + Audit sur site</span>
+                <span class="price-badge__amount">990€</span>
             </div>
             <div class="price-badge price-badge--main">
-                <span class="price-badge__label">puis</span>
-                <span class="price-badge__amount">290€</span>
+                <span class="price-badge__label">puis Accompagnement + Ressources pédagogiques</span>
+                <span class="price-badge__amount">390€</span>
                 <span class="price-badge__unit">par mois</span>
             </div>
         </div>

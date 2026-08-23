@@ -60,24 +60,6 @@ use App\Helpers\Renderer;
     </div>
 </section>
 
-<section class="section section--tint">
-    <div class="container">
-        <p class="eyebrow tx-orange">domaines d'expertise</p>
-        <h2 class="section__title">10 domaines, une seule équipe à vos côtés.</h2>
-        <div class="domains-grid">
-            <?php foreach ($domains as [$name, $desc]): ?>
-                <div class="domain">
-                    <span class="domain__chev">›</span>
-                    <div>
-                        <h3 class="domain__name"><?= Renderer::escape($name) ?></h3>
-                        <p class="domain__desc"><?= Renderer::escape($desc) ?></p>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
 <section class="cta-band">
     <div class="container cta-band__inner">
         <div>

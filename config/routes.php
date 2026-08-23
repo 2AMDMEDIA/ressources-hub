@@ -7,6 +7,7 @@ use App\Controllers\AdminCategoriesController;
 use App\Controllers\AdminClubsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminEmployeesController;
+use App\Controllers\AdminMessagesController;
 use App\Controllers\AdminMigrationsController;
 use App\Controllers\AdminResourcesController;
 use App\Controllers\AdminSettingsController;
@@ -34,6 +35,9 @@ return [
     ['GET',  '/', [SiteController::class, 'home'], false],
     ['GET',  '/experts', [SiteController::class, 'experts'], false],
     ['GET',  '/programmes', [SiteController::class, 'programs'], false],
+    ['GET',  '/programmes/ressource/{id}', [SiteController::class, 'programResource'], false],
+    ['GET',  '/programmes/{slug}', [SiteController::class, 'programCategory'], false],
+    ['GET',  '/fonction', [SiteController::class, 'fonction'], false],
     ['GET',  '/prix', [SiteController::class, 'pricing'], false],
     ['GET',  '/contact', [SiteController::class, 'contact'], false],
     ['POST', '/contact', [SiteController::class, 'submitContact'], false],
@@ -100,10 +104,16 @@ return [
 
     // Ressources — catégories / sous-catégories
     ['GET',  '/admin/categories', [AdminCategoriesController::class, 'index'], 'super-admin'],
+    ['GET',  '/admin/categories/new', [AdminCategoriesController::class, 'showNew'], 'super-admin'],
     ['POST', '/admin/categories', [AdminCategoriesController::class, 'store'], 'super-admin'],
-    ['POST', '/admin/categories/{id}/sub', [AdminCategoriesController::class, 'storeSub'], 'super-admin'],
+    ['GET',  '/admin/categories/{id}/edit', [AdminCategoriesController::class, 'edit'], 'super-admin'],
     ['POST', '/admin/categories/{id}/update', [AdminCategoriesController::class, 'update'], 'super-admin'],
     ['POST', '/admin/categories/{id}/delete', [AdminCategoriesController::class, 'delete'], 'super-admin'],
+
+    // Messages (formulaire de contact public)
+    ['GET',  '/admin/messages', [AdminMessagesController::class, 'index'], 'super-admin'],
+    ['GET',  '/admin/messages/{id}', [AdminMessagesController::class, 'show'], 'super-admin'],
+    ['POST', '/admin/messages/{id}/delete', [AdminMessagesController::class, 'delete'], 'super-admin'],
 
     // Employés (équipe des clubs)
     ['GET',  '/admin/employees', [AdminEmployeesController::class, 'index'], 'super-admin'],

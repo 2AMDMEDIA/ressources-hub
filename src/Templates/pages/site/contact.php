@@ -39,28 +39,34 @@ $v = fn(string $k): string => Renderer::escape($old[$k] ?? '');
 
                     <div class="form-row">
                         <label class="field">
-                            <span class="field__label">Nom *</span>
-                            <input type="text" name="name" required value="<?= $v('name') ?>">
+                            <span class="field__label">Nom du club *</span>
+                            <input type="text" name="club" required value="<?= $v('club') ?>">
                         </label>
                         <label class="field">
-                            <span class="field__label">Email *</span>
-                            <input type="email" name="email" required value="<?= $v('email') ?>">
+                            <span class="field__label">Adresse du club *</span>
+                            <input type="text" name="club_address" required value="<?= $v('clubAddress') ?>">
                         </label>
                     </div>
                     <div class="form-row">
                         <label class="field">
-                            <span class="field__label">Téléphone</span>
-                            <input type="tel" name="phone" value="<?= $v('phone') ?>">
+                            <span class="field__label">Nom du manager *</span>
+                            <input type="text" name="name" required value="<?= $v('name') ?>">
                         </label>
                         <label class="field">
-                            <span class="field__label">Votre club</span>
-                            <input type="text" name="club" value="<?= $v('club') ?>">
+                            <span class="field__label">Prénom *</span>
+                            <input type="text" name="first_name" required value="<?= $v('firstName') ?>">
                         </label>
                     </div>
-                    <label class="field">
-                        <span class="field__label">Sujet</span>
-                        <input type="text" name="subject" value="<?= $v('subject') ?>" placeholder="Ex. : demande d'information sur l'audit">
-                    </label>
+                    <div class="form-row">
+                        <label class="field">
+                            <span class="field__label">Email *</span>
+                            <input type="email" name="email" required value="<?= $v('email') ?>">
+                        </label>
+                        <label class="field">
+                            <span class="field__label">Téléphone *</span>
+                            <input type="tel" name="phone" required value="<?= $v('phone') ?>">
+                        </label>
+                    </div>
                     <label class="field">
                         <span class="field__label">Message *</span>
                         <textarea name="message" rows="6" required placeholder="Décrivez votre besoin en quelques lignes…"><?= $v('message') ?></textarea>
@@ -72,11 +78,10 @@ $v = fn(string $k): string => Renderer::escape($old[$k] ?? '');
 
         <aside class="contact-info">
             <h2>Coordonnées</h2>
-            <p class="contact-info__name"><?= Renderer::escape($contact['name']) ?></p>
+            <p class="contact-info__name">MD Media Event</p>
             <ul>
-                <li><span>Téléphone</span><a href="tel:<?= Renderer::escape($contact['phone_link']) ?>"><?= Renderer::escape($contact['phone']) ?></a></li>
-                <li><span>Email</span><a href="mailto:<?= Renderer::escape($contact['email']) ?>"><?= Renderer::escape($contact['email']) ?></a></li>
-                <li><span>Adresse</span><?= Renderer::escape($contact['company']) ?><br><?= Renderer::escape($contact['address']) ?></li>
+                <li><span>Email</span><a href="mailto:ressources@fitness-challenges.com">ressources@fitness-challenges.com</a></li>
+                <li><span>Adresse</span>475 route d'Aix<br>13510 Eguilles</li>
             </ul>
         </aside>
     </div>

@@ -17,6 +17,7 @@ $nav = [
     ['employees', '/admin/employees', 'Employés'],
     ['resources', '/admin/resources', 'Ressources'],
     ['categories', '/admin/categories', 'Catégories'],
+    ['messages', '/admin/messages', 'Messages'],
 ];
 ?><!DOCTYPE html>
 <html lang="fr">
@@ -29,8 +30,8 @@ $nav = [
 <body class="app-body">
 <div class="app-shell">
     <aside class="sidebar admin-sidebar">
-        <div class="sidebar__brand">
-            <span class="sidebar__brand-name">RESSOURCES</span>
+        <div class="sidebar__brand sidebar__brand--logo">
+            <img src="/assets/img/logo-white.png" alt="RESSOURCES" class="sidebar__logo">
             <span class="sidebar__brand-version">Admin</span>
         </div>
         <nav class="sidebar__nav">
@@ -46,9 +47,6 @@ $nav = [
             <a href="/admin/migrations" class="sidebar__item<?= $admin['active'] === 'migrations' ? ' sidebar__item--active' : '' ?>">
                 <span class="sidebar__label">Migrations</span>
             </a>
-
-            <div class="sidebar__separator">Bientôt</div>
-            <span class="sidebar__item sidebar__item--disabled"><span class="sidebar__label">Messages</span></span>
         </nav>
         <a href="/" class="sidebar__item sidebar__foot">← Voir le site public</a>
     </aside>

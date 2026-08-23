@@ -12,24 +12,11 @@ use App\Helpers\Renderer;
  * @var array{name:string,version:string,url:string} $app
  * @var string $content_html
  */
-$brand = function (string $variant = 'light'): string {
-    $rColor = '#5C8AAF';
-    $txtColor = $variant === 'light' ? '#1A2230' : '#ffffff';
-    $subColor = $variant === 'light' ? '#5C8AAF' : '#C8DFF4';
-    return '<span class="brand">'
-        . '<span class="brand__mark" aria-hidden="true">'
-        . '<svg viewBox="0 0 40 40" width="34" height="34"><rect x="1" y="1" width="38" height="38" rx="9" fill="' . $rColor . '"/>'
-        . '<path d="M15 12h4.4v2.3c1-1.7 2.6-2.6 4.8-2.6v4.1c-.5-.1-1-.2-1.6-.2-2 0-3.2 1.1-3.2 3.6V28H15z" fill="#fff"/></svg>'
-        . '</span>'
-        . '<span class="brand__text" style="color:' . $txtColor . '">ressources'
-        . '<span class="brand__sub" style="color:' . $subColor . '">by Fitness Challenges</span>'
-        . '</span></span>';
-};
-
 $links = [
     ['/', 'Accueil', 'home'],
     ['/experts', 'Nos experts', 'experts'],
     ['/programmes', 'Programmes', 'programmes'],
+    ['/fonction', 'Fonction', 'fonction'],
     ['/prix', 'Tarif', 'prix'],
     ['/contact', 'Contact', 'contact'],
 ];
@@ -45,7 +32,7 @@ $links = [
 <body class="site">
     <header class="site-header">
         <div class="site-header__inner">
-            <a href="/" class="site-header__brand"><?= $brand('light') ?></a>
+            <a href="/" class="site-header__brand"><img src="/assets/img/logo.png" alt="RESSOURCES by Fitness Challenges" class="brand-img"></a>
 
             <input type="checkbox" id="navtoggle" class="navtoggle" hidden>
             <label for="navtoggle" class="navburger" aria-label="Menu">
@@ -99,7 +86,7 @@ $links = [
     <footer class="site-footer">
         <div class="site-footer__inner">
             <div class="site-footer__brand">
-                <?= $brand('dark') ?>
+                <img src="/assets/img/logo-white.png" alt="RESSOURCES" class="brand-img brand-img--footer">
                 <p class="site-footer__baseline">Échanger, S'entraîner, Performer.</p>
             </div>
             <nav class="site-footer__nav">
@@ -108,10 +95,9 @@ $links = [
                 <?php endforeach; ?>
             </nav>
             <div class="site-footer__contact">
-                <p><strong>Bertrand Lataste</strong></p>
-                <p><a href="tel:+33676209512">06 76 20 95 12</a></p>
+                <p><strong>MD Media Event</strong></p>
                 <p><a href="mailto:ressources@fitness-challenges.com">ressources@fitness-challenges.com</a></p>
-                <p>Fitness Challenges<br>730 rue Pierre Simon Laplace, 13290 Aix-en-Provence</p>
+                <p>475 route d'Aix<br>13510 Eguilles</p>
             </div>
         </div>
         <div class="site-footer__legal">
