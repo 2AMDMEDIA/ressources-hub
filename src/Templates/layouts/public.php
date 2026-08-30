@@ -26,6 +26,10 @@ $links = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= Renderer::escape($title) ?></title>
     <meta name="description" content="RESSOURCES by Fitness Challenges — le comité d'experts stratégique externalisé pour les dirigeants, exploitants et managers de clubs de fitness.">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
     <link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body class="site">
