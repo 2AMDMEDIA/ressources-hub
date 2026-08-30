@@ -53,7 +53,7 @@ $nav = [
                 <span class="sidebar__label">Migrations</span>
             </a>
         </nav>
-        <a href="/" class="sidebar__item sidebar__foot">← Voir le site public</a>
+        <a href="/" target="_blank" rel="noopener" class="sidebar__item sidebar__foot">Voir le site public ↗</a>
     </aside>
 
     <div class="app-main">
