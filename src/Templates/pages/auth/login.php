@@ -25,7 +25,7 @@ use App\Helpers\Renderer;
     </label>
 
     <button type="submit" class="btn btn--primary btn--block">Se connecter</button>
-    <a href="/contact" class="btn btn--outline btn--block" style="margin-top:10px;">S'enregistrer</a>
+    <a href="/contact" class="btn btn--outline btn--block" style="margin-top:10px;">Devenir membre</a>
 
     <p class="auth-link">
         <a href="/forgot-password">Mot de passe oublié ?</a>
