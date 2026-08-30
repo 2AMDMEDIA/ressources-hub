@@ -16,7 +16,6 @@ final class Expert
     public function __construct(
         public string $id,
         public string $kind,
-        public ?string $title,
         public string $name,
         public ?string $role,
         public ?string $bio,
@@ -35,7 +34,6 @@ final class Expert
         return new self(
             id: $row['id'],
             kind: $row['kind'] ?? self::KIND_TEAM,
-            title: $row['title'] ?? null,
             name: $row['name'],
             role: $row['role'] ?? null,
             bio: $row['bio'] ?? null,

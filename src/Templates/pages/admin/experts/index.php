@@ -27,9 +27,7 @@ $rows = function (array $people) use ($e, $csrf_token): void {
             echo '<span class="expert-mini-avatar expert-mini-avatar--' . $e($p->accentClass()) . '">' . $e($p->initials()) . '</span>';
         }
         echo '</td>';
-        echo '<td><strong>' . $e($p->name) . '</strong>';
-        if ($p->title) { echo '<br><span style="font-size:12px;color:var(--color-text-muted);">Titre : ' . $e($p->title) . '</span>'; }
-        echo '</td>';
+        echo '<td><strong>' . $e($p->name) . '</strong></td>';
         echo '<td>' . $e($p->role) . '</td>';
         echo '<td style="text-align:right;white-space:nowrap;">';
         echo '<a href="/admin/experts/' . $e($p->id) . '/edit" class="btn btn--outline btn--sm">Éditer</a> ';
@@ -50,7 +48,7 @@ $rows = function (array $people) use ($e, $csrf_token): void {
     </div>
     <div class="card__body">
         <p style="margin:0 0 14px;font-size:13px;color:var(--color-text-muted);">
-            Bloc du haut de la page « Nos experts ». Chaque fondateur a un titre affiché au-dessus de sa vignette.
+            Bloc du haut de la page « Nos experts ». Vous pouvez ajouter plusieurs fondateurs (mêmes champs que l'équipe).
         </p>
         <?php $rows($founders); ?>
     </div>

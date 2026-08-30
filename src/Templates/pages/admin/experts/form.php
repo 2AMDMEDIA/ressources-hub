@@ -29,15 +29,6 @@ $v = fn(string $field, ?string $default = '') => $expert !== null ? $e($expert->
 
     <div class="card__body" style="display:flex;flex-direction:column;gap:16px;">
 
-        <?php if ($isFounder): ?>
-            <label class="field">
-                <span class="field__label">Titre (affiché au-dessus de la vignette)</span>
-                <input type="text" name="title" value="<?= $v('title') ?>" placeholder="Ex. : Fondateur">
-            </label>
-        <?php else: ?>
-            <input type="hidden" name="title" value="<?= $v('title') ?>">
-        <?php endif; ?>
-
         <div class="grid-2">
             <label class="field">
                 <span class="field__label">Nom complet *</span>

@@ -254,9 +254,8 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 .expert-lead__avatar--navy { background: linear-gradient(135deg, var(--steel), var(--navy)); }
 .expert-lead__avatar--orange { background: linear-gradient(135deg, #f0894f, var(--orange)); }
 
-/* Bloc fondateurs (empilés, un par un, avec titre au-dessus de la vignette) */
+/* Bloc fondateurs (empilés, un par un) */
 .founders-list { display: flex; flex-direction: column; gap: 22px; }
-.founder-block__title { text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; font-size: 13px; margin: 0 0 8px; }
 
 /* Pricing */
 .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; align-items: start; }

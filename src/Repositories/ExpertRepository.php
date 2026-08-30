@@ -35,7 +35,7 @@ final class ExpertRepository
     }
 
     /**
-     * @param array<string,mixed> $data clés: kind, title, name, role, bio, photo_url, phone, email, accent, position
+     * @param array<string,mixed> $data clés: kind, name, role, bio, photo_url, phone, email, accent, position
      */
     public function create(array $data): Expert
     {
@@ -45,13 +45,12 @@ final class ExpertRepository
         $position = isset($data['position']) ? (int) $data['position'] : $this->nextPosition($kind);
 
         $stmt = $this->pdo()->prepare(
-            'INSERT INTO experts (id, kind, title, name, role, bio, photo_url, phone, email, accent, position)
-             VALUES (:id, :kind, :title, :name, :role, :bio, :photo, :phone, :email, :accent, :pos)'
+            'INSERT INTO experts (id, kind, name, role, bio, photo_url, phone, email, accent, position)
+             VALUES (:id, :kind, :name, :role, :bio, :photo, :phone, :email, :accent, :pos)'
         );
         $stmt->execute([
             ':id' => $id,
             ':kind' => $kind,
-            ':title' => ($data['title'] ?? null) ?: null,
             ':name' => (string) ($data['name'] ?? ''),
             ':role' => ($data['role'] ?? null) ?: null,
             ':bio' => ($data['bio'] ?? null) ?: null,
@@ -75,12 +74,11 @@ final class ExpertRepository
      */
     public function update(string $id, array $data): void
     {
-        $sets = 'kind = :kind, title = :title, name = :name, role = :role, bio = :bio,
+        $sets = 'kind = :kind, name = :name, role = :role, bio = :bio,
                  phone = :phone, email = :email, accent = :accent, position = :pos, updated_at = NOW()';
         $params = [
             ':kind' => ($data['kind'] ?? Expert::KIND_TEAM) === Expert::KIND_FOUNDER
                 ? Expert::KIND_FOUNDER : Expert::KIND_TEAM,
-            ':title' => ($data['title'] ?? null) ?: null,
             ':name' => (string) ($data['name'] ?? ''),
             ':role' => ($data['role'] ?? null) ?: null,
             ':bio' => ($data['bio'] ?? null) ?: null,

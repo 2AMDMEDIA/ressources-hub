@@ -145,7 +145,6 @@ final class AdminExpertsController extends BaseController
     {
         return [
             'kind' => $this->input('kind') === Expert::KIND_FOUNDER ? Expert::KIND_FOUNDER : Expert::KIND_TEAM,
-            'title' => $this->input('title'),
             'name' => (string) ($this->input('name') ?? ''),
             'role' => $this->input('role'),
             'bio' => $this->input('bio'),

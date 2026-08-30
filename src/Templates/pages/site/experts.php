@@ -26,9 +26,6 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
         <div class="founders-list">
             <?php foreach ($founders as $f): ?>
                 <div class="founder-block">
-                    <?php if ($f->title): ?>
-                        <p class="founder-block__title tx-orange"><?= $e($f->title) ?></p>
-                    <?php endif; ?>
                     <div class="expert-lead">
                         <div class="expert-lead__avatar expert-lead__avatar--<?= $e($f->accentClass()) ?>" aria-hidden="true">
                             <?php if ($f->hasPhoto()): ?>
