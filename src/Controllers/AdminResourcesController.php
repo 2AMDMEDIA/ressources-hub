@@ -45,7 +45,7 @@ final class AdminResourcesController extends BaseController
             'tree' => $catRepo->tree(),
             'counts' => $resRepo->countsByCategory(),
             'filter' => $filter,
-        ], 'resources', 'Ressources — Contenus');
+        ], 'resources', 'Ressources — Contenus', wide: true);
     }
 
     public function showNew(): void
@@ -249,10 +249,10 @@ final class AdminResourcesController extends BaseController
     }
 
     /** @param array<string,mixed> $data */
-    private function renderAdmin(string $view, array $data, string $active, string $pageTitle): void
+    private function renderAdmin(string $view, array $data, string $active, string $pageTitle, bool $wide = false): void
     {
         $this->render($view, layout: 'layouts.admin', data: array_merge($data, [
-            'admin' => ['active' => $active, 'page_title' => $pageTitle, 'user_name' => (string) Session::get('user_full_name', '')],
+            'admin' => ['active' => $active, 'page_title' => $pageTitle, 'user_name' => (string) Session::get('user_full_name', ''), 'wide' => $wide],
         ]));
     }
 }

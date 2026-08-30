@@ -64,7 +64,7 @@ $nav = [
             </div>
         </header>
 
-        <div class="app-content">
+        <div class="app-content<?= !empty($admin['wide']) ? ' app-content--wide' : '' ?>">
             <?php if (!empty($flashes)): ?>
                 <div class="flashes" style="margin-bottom:16px;">
                     <?php foreach ($flashes as $flash): ?>

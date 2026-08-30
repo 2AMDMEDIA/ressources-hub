@@ -65,7 +65,7 @@ $renderTree = function (array $nodes) use (&$renderTree, $e, $counts, $filter): 
         <?php else: ?>
             <table class="table">
                 <thead>
-                    <tr><th>Titre</th><th>Catégorie</th><th>Format</th><th>Niveau</th><th>Statut</th><th></th></tr>
+                    <tr><th>Titre</th><th>Catégorie</th><th>Format</th><th>ID Vimeo</th><th>Niveau</th><th>Statut</th><th></th></tr>
                 </thead>
                 <tbody>
                 <?php foreach ($resources as $r): ?>
@@ -76,6 +76,13 @@ $renderTree = function (array $nodes) use (&$renderTree, $e, $counts, $filter): 
                         </td>
                         <td><?= $e($r['category_name'] ?? '') ?: '<span style="color:var(--color-text-muted)">—</span>' ?></td>
                         <td><?= $e(Resource::FORMATS[$r['format']] ?? $r['format']) ?></td>
+                        <td>
+                            <?php if (!empty($r['video_id'])): ?>
+                                <code style="font-size:13px;"><?= $e($r['video_id']) ?></code>
+                            <?php else: ?>
+                                <span style="color:var(--color-text-muted)">—</span>
+                            <?php endif; ?>
+                        </td>
                         <td><?= !empty($r['level']) ? $e(Resource::LEVELS[$r['level']] ?? $r['level']) : '<span style="color:var(--color-text-muted)">—</span>' ?></td>
                         <td>
                             <?php if (($r['status'] ?? 'draft') === 'published'): ?>

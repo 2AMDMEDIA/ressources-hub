@@ -181,6 +181,7 @@ a:hover { text-decoration: underline; }
     max-width: 1400px;
     width: 100%;
 }
+.app-content--wide { max-width: none; }
 
 /* -----------------------------------------------------------------------------
    Sidebar
