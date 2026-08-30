@@ -31,7 +31,7 @@ $links = [
 <body class="site">
     <header class="site-header">
         <div class="site-header__inner">
-            <a href="/" class="site-header__brand"><img src="/assets/img/logo.png" alt="RESSOURCES by Fitness Challenges" class="brand-img"></a>
+            <a href="/" class="site-header__brand"><img src="/assets/img/logo-header.png" alt="RESSOURCES by Fitness Challenges" class="brand-img"></a>
 
             <input type="checkbox" id="navtoggle" class="navtoggle" hidden>
             <label for="navtoggle" class="navburger" aria-label="Menu">
@@ -61,7 +61,7 @@ $links = [
                                     <input type="password" name="password" required autocomplete="current-password">
                                 </label>
                                 <button type="submit" class="btn btn--accent btn--block">Se connecter</button>
-                                <a href="/contact" class="btn btn--outline btn--block" style="margin-top:8px;">S'enregistrer</a>
+                                <a href="/contact" class="btn btn--outline btn--block" style="margin-top:8px;">Devenir membre</a>
                                 <a href="/forgot-password" class="login-form__forgot">Mot de passe oublié ?</a>
                             </form>
                         </div>
