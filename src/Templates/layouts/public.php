@@ -16,7 +16,6 @@ $links = [
     ['/', 'Accueil', 'home'],
     ['/experts', 'Nos experts', 'experts'],
     ['/programmes', 'Programmes', 'programmes'],
-    ['/fonction', 'Fonction', 'fonction'],
     ['/prix', 'Tarif', 'prix'],
     ['/contact', 'Contact', 'contact'],
 ];

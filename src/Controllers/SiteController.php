@@ -196,14 +196,6 @@ final class SiteController extends BaseController
         ], 'programmes');
     }
 
-    public function fonction(): void
-    {
-        $this->renderPublic('pages.site.fonction', [
-            'title' => 'Fonction — RESSOURCES',
-            'domains' => self::DOMAINS,
-        ], 'fonction');
-    }
-
     public function pricing(): void
     {
         $this->renderPublic('pages.site.pricing', [

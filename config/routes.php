@@ -38,7 +38,6 @@ return [
     ['GET',  '/programmes', [SiteController::class, 'programs'], false],
     ['GET',  '/programmes/ressource/{id}', [SiteController::class, 'programResource'], false],
     ['GET',  '/programmes/{slug}', [SiteController::class, 'programCategory'], false],
-    ['GET',  '/fonction', [SiteController::class, 'fonction'], false],
     ['GET',  '/prix', [SiteController::class, 'pricing'], false],
     ['GET',  '/contact', [SiteController::class, 'contact'], false],
     ['POST', '/contact', [SiteController::class, 'submitContact'], false],
