@@ -131,6 +131,7 @@ $resourceCards = function (array $resources) use ($e, $is_member): void {
                     <input type="password" name="password" required autocomplete="current-password">
                 </label>
                 <button type="submit" class="btn btn--accent btn--block">Se connecter</button>
+                <a href="/contact" class="btn btn--outline btn--block" style="margin-top:8px;">S'enregistrer</a>
                 <a href="/forgot-password" class="login-form__forgot">Mot de passe oublié ?</a>
             </form>
         </div>
