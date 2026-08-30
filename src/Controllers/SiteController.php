@@ -6,9 +6,11 @@ namespace App\Controllers;
 
 use App\Helpers\Csrf;
 use App\Helpers\Renderer;
+use App\Models\Expert;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ClubRepository;
 use App\Repositories\ContactMessageRepository;
+use App\Repositories\ExpertRepository;
 use App\Repositories\ResourceRepository;
 use App\Repositories\UserRepository;
 use App\Services\Mailer;
@@ -44,34 +46,6 @@ final class SiteController extends BaseController
         ['CRÉATION', 'Ouverture de club, concept et business plan.'],
     ];
 
-    /**
-     * Consultants — DONNÉES FICTIVES à remplacer par la vraie équipe.
-     * initials + accent servent à générer l'avatar tant qu'il n'y a pas de photo.
-     */
-    private const EXPERTS = [
-        [
-            'name' => 'Camille Roussel',
-            'role' => 'Experte Vente & Développement commercial',
-            'bio' => 'Ancienne directrice de réseau, elle structure les process de vente et la montée en compétence des équipes terrain.',
-            'initials' => 'CR',
-            'accent' => 'steel',
-        ],
-        [
-            'name' => 'Thomas Bianchi',
-            'role' => 'Expert Marketing & Acquisition',
-            'bio' => 'Spécialiste de la communication locale et de l\'acquisition, il aide les clubs à remplir durablement leur pipeline de prospects.',
-            'initials' => 'TB',
-            'accent' => 'navy',
-        ],
-        [
-            'name' => 'Sarah Mendes',
-            'role' => 'Experte Fidélisation & Expérience membre',
-            'bio' => 'Elle conçoit les parcours d\'onboarding et de rétention pour réduire les résiliations et améliorer le NPS.',
-            'initials' => 'SM',
-            'accent' => 'orange',
-        ],
-    ];
-
     // -------------------------------------------------------------------------
     // Pages
     // -------------------------------------------------------------------------
@@ -86,11 +60,21 @@ final class SiteController extends BaseController
 
     public function experts(): void
     {
+        // Résilient si la table `experts` n'existe pas encore (migration 012 non
+        // appliquée en prod) : on affiche la page sans planter.
+        $founders = [];
+        $team = [];
+        try {
+            $repo = new ExpertRepository();
+            $founders = $repo->listByKind(Expert::KIND_FOUNDER);
+            $team = $repo->listByKind(Expert::KIND_TEAM);
+        } catch (\Throwable $e) {
+            error_log('Experts indisponibles (migration 012 non appliquée ?) : ' . $e->getMessage());
+        }
         $this->renderPublic('pages.site.experts', [
             'title' => 'Nos experts — RESSOURCES',
-            'domains' => self::DOMAINS,
-            'lead' => self::CONTACT,
-            'experts' => self::EXPERTS,
+            'founders' => $founders,
+            'team' => $team,
         ], 'experts');
     }
 

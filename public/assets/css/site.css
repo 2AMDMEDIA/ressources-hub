@@ -245,6 +245,19 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 .expert-card__role { color: var(--orange); font-weight: 700; font-size: 14px; margin: 0 0 12px; }
 .expert-card__bio { color: var(--muted); font-size: 15px; margin: 0; }
 
+/* Photos dans les avatars (remplacent les initiales quand une photo est uploadée) */
+.expert-lead__avatar, .expert-card__avatar { overflow: hidden; }
+.expert-lead__avatar img, .expert-card__avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Variantes de couleur pour la vignette fondateur (avatar à initiales) */
+.expert-lead__avatar--steel { background: linear-gradient(135deg, #6f9cbe, var(--steel)); }
+.expert-lead__avatar--navy { background: linear-gradient(135deg, var(--steel), var(--navy)); }
+.expert-lead__avatar--orange { background: linear-gradient(135deg, #f0894f, var(--orange)); }
+
+/* Bloc fondateurs (empilés, un par un, avec titre au-dessus de la vignette) */
+.founders-list { display: flex; flex-direction: column; gap: 22px; }
+.founder-block__title { text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; font-size: 13px; margin: 0 0 8px; }
+
 /* Pricing */
 .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; align-items: start; }
 .pricing-card { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }

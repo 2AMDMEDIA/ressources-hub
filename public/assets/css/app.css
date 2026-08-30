@@ -547,6 +547,17 @@ a:hover { text-decoration: underline; }
 .badge--red { background: #fee2e2; color: #991b1b; }
 .badge--purple { background: #ede9fe; color: #5b21b6; }
 
+/* Mini-avatar à initiales dans la liste admin « Nos experts » */
+.expert-mini-avatar {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    color: #fff; font-size: 14px; font-weight: 700;
+    background: linear-gradient(135deg, #6f9cbe, #5C8AAF);
+}
+.expert-mini-avatar--steel { background: linear-gradient(135deg, #6f9cbe, #5C8AAF); }
+.expert-mini-avatar--navy { background: linear-gradient(135deg, #5C8AAF, #1B3A6B); }
+.expert-mini-avatar--orange { background: linear-gradient(135deg, #f0894f, #E8672A); }
+
 /* -----------------------------------------------------------------------------
    Product detail header (image + meta)
    ----------------------------------------------------------------------------- */

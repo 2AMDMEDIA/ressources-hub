@@ -17,6 +17,7 @@ $nav = [
     ['employees', '/admin/employees', 'Employés'],
     ['resources', '/admin/resources', 'Ressources'],
     ['categories', '/admin/categories', 'Catégories'],
+    ['experts', '/admin/experts', 'Nos experts'],
     ['messages', '/admin/messages', 'Messages'],
 ];
 ?><!DOCTYPE html>

@@ -7,6 +7,7 @@ use App\Controllers\AdminCategoriesController;
 use App\Controllers\AdminClubsController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminEmployeesController;
+use App\Controllers\AdminExpertsController;
 use App\Controllers\AdminMessagesController;
 use App\Controllers\AdminMigrationsController;
 use App\Controllers\AdminResourcesController;
@@ -114,6 +115,14 @@ return [
     ['GET',  '/admin/categories/{id}/edit', [AdminCategoriesController::class, 'edit'], 'super-admin'],
     ['POST', '/admin/categories/{id}/update', [AdminCategoriesController::class, 'update'], 'super-admin'],
     ['POST', '/admin/categories/{id}/delete', [AdminCategoriesController::class, 'delete'], 'super-admin'],
+
+    // Nos experts (page vitrine administrable : fondateurs + équipe)
+    ['GET',  '/admin/experts', [AdminExpertsController::class, 'index'], 'super-admin'],
+    ['GET',  '/admin/experts/new', [AdminExpertsController::class, 'showNew'], 'super-admin'],
+    ['POST', '/admin/experts', [AdminExpertsController::class, 'store'], 'super-admin'],
+    ['GET',  '/admin/experts/{id}/edit', [AdminExpertsController::class, 'edit'], 'super-admin'],
+    ['POST', '/admin/experts/{id}/update', [AdminExpertsController::class, 'update'], 'super-admin'],
+    ['POST', '/admin/experts/{id}/delete', [AdminExpertsController::class, 'delete'], 'super-admin'],
 
     // Messages (formulaire de contact public)
     ['GET',  '/admin/messages', [AdminMessagesController::class, 'index'], 'super-admin'],

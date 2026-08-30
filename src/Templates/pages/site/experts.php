@@ -1,12 +1,13 @@
 <?php
 
 use App\Helpers\Renderer;
+use App\Models\Expert;
 
 /**
- * @var array<int,array{0:string,1:string}> $domains
- * @var array{name:string,phone:string,email:string,company:string,address:string} $lead
- * @var array<int,array{name:string,role:string,bio:string,initials:string,accent:string}> $experts
+ * @var list<Expert> $founders
+ * @var list<Expert> $team
  */
+$e = fn(?string $s): string => Renderer::escape((string) $s);
 ?>
 <section class="page-hero">
     <div class="container">
@@ -19,46 +20,67 @@ use App\Helpers\Renderer;
     </div>
 </section>
 
+<?php if ($founders !== []): ?>
 <section class="section">
     <div class="container">
-        <div class="expert-lead">
-            <div class="expert-lead__avatar" aria-hidden="true"><?= Renderer::escape(mb_substr($lead['name'], 0, 1)) ?></div>
-            <div class="expert-lead__body">
-                <h2><?= Renderer::escape($lead['name']) ?></h2>
-                <p class="expert-lead__role">Fondateur &amp; référent RESSOURCES — Fitness Challenges</p>
-                <p>Plus de 12 ans d'accompagnement des professionnels du fitness en France,
-                   Belgique et Suisse. Point de contact privilégié de votre accompagnement.</p>
-                <p class="expert-lead__meta">
-                    <a href="tel:<?= Renderer::escape('+33676209512') ?>"><?= Renderer::escape($lead['phone']) ?></a>
-                    · <a href="mailto:<?= Renderer::escape($lead['email']) ?>"><?= Renderer::escape($lead['email']) ?></a>
-                </p>
-            </div>
+        <div class="founders-list">
+            <?php foreach ($founders as $f): ?>
+                <div class="founder-block">
+                    <?php if ($f->title): ?>
+                        <p class="founder-block__title tx-orange"><?= $e($f->title) ?></p>
+                    <?php endif; ?>
+                    <div class="expert-lead">
+                        <div class="expert-lead__avatar expert-lead__avatar--<?= $e($f->accentClass()) ?>" aria-hidden="true">
+                            <?php if ($f->hasPhoto()): ?>
+                                <img src="<?= $e($f->photoUrl) ?>" alt="<?= $e($f->name) ?>">
+                            <?php else: ?>
+                                <?= $e($f->initials()) ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="expert-lead__body">
+                            <h2><?= $e($f->name) ?></h2>
+                            <?php if ($f->role): ?><p class="expert-lead__role"><?= $e($f->role) ?></p><?php endif; ?>
+                            <?php if ($f->bio): ?><p><?= nl2br($e($f->bio)) ?></p><?php endif; ?>
+                            <?php if ($f->phone || $f->email): ?>
+                                <p class="expert-lead__meta">
+                                    <?php if ($f->phone): ?><a href="tel:<?= $e(preg_replace('/\s+/', '', $f->phone)) ?>"><?= $e($f->phone) ?></a><?php endif; ?>
+                                    <?php if ($f->phone && $f->email): ?> · <?php endif; ?>
+                                    <?php if ($f->email): ?><a href="mailto:<?= $e($f->email) ?>"><?= $e($f->email) ?></a><?php endif; ?>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
+<?php endif; ?>
 
+<?php if ($team !== []): ?>
 <section class="section">
     <div class="container">
         <p class="eyebrow tx-orange">l'équipe</p>
         <h2 class="section__title">Des consultants qui connaissent le terrain.</h2>
         <div class="experts-grid">
-            <?php foreach ($experts as $ex): ?>
+            <?php foreach ($team as $ex): ?>
                 <article class="expert-card">
-                    <div class="expert-card__avatar expert-card__avatar--<?= Renderer::escape($ex['accent']) ?>" aria-hidden="true">
-                        <?= Renderer::escape($ex['initials']) ?>
+                    <div class="expert-card__avatar expert-card__avatar--<?= $e($ex->accentClass()) ?>" aria-hidden="true">
+                        <?php if ($ex->hasPhoto()): ?>
+                            <img src="<?= $e($ex->photoUrl) ?>" alt="<?= $e($ex->name) ?>">
+                        <?php else: ?>
+                            <?= $e($ex->initials()) ?>
+                        <?php endif; ?>
                     </div>
-                    <h3 class="expert-card__name"><?= Renderer::escape($ex['name']) ?></h3>
-                    <p class="expert-card__role"><?= Renderer::escape($ex['role']) ?></p>
-                    <p class="expert-card__bio"><?= Renderer::escape($ex['bio']) ?></p>
+                    <h3 class="expert-card__name"><?= $e($ex->name) ?></h3>
+                    <?php if ($ex->role): ?><p class="expert-card__role"><?= $e($ex->role) ?></p><?php endif; ?>
+                    <?php if ($ex->bio): ?><p class="expert-card__bio"><?= $e($ex->bio) ?></p><?php endif; ?>
                 </article>
             <?php endforeach; ?>
         </div>
-        <p class="note-placeholder">
-            <strong>Données fictives :</strong> ces 3 profils sont des exemples de mise en page.
-            Ils seront remplacés par la vraie équipe (nom, rôle, photo, parcours) dès réception.
-        </p>
     </div>
 </section>
+<?php endif; ?>
 
 <section class="cta-band">
     <div class="container cta-band__inner">
