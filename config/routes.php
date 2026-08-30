@@ -13,6 +13,7 @@ use App\Controllers\AdminResourcesController;
 use App\Controllers\AdminSettingsController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
+use App\Controllers\DiagController;
 use App\Controllers\InstallController;
 use App\Controllers\MemberEmployeesController;
 use App\Controllers\MemberLibraryController;
@@ -42,6 +43,9 @@ return [
     ['GET',  '/contact', [SiteController::class, 'contact'], false],
     ['POST', '/contact', [SiteController::class, 'submitContact'], false],
     ['GET',  '/mon-espace', [SiteController::class, 'account'], false],
+
+    // Diagnostic perf (token-protégé via DIAG_TOKEN dans .env ; sinon 404)
+    ['GET',  '/__diag', [DiagController::class, 'index'], false],
 
     // Installation one-shot (token-protégée via INSTALL_TOKEN dans .env)
     ['GET',  '/install', [InstallController::class, 'show'], false],
