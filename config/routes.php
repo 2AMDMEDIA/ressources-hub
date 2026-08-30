@@ -88,6 +88,7 @@ return [
     ['GET',  '/admin/settings', [AdminSettingsController::class, 'index'], 'super-admin'],
     ['POST', '/admin/settings/super-admins', [AdminSettingsController::class, 'createSuperAdmin'], 'super-admin'],
     ['POST', '/admin/settings/super-admins/{id}/remove', [AdminSettingsController::class, 'removeSuperAdmin'], 'super-admin'],
+    ['POST', '/admin/settings/debug-bar', [AdminSettingsController::class, 'toggleDebugBar'], 'super-admin'],
 
     // Migrations base de données
     ['GET',  '/admin/migrations', [AdminMigrationsController::class, 'index'], 'super-admin'],

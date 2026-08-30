@@ -21,8 +21,30 @@ final class AdminSettingsController extends BaseController
             'title' => 'Paramètres',
             'super_admins' => (new UserRepository())->listSuperAdmins(),
             'current_user_id' => Session::userId(),
+            'profiler_on' => (bool) Session::get('profiler_on', false),
             'admin' => ['active' => 'settings', 'page_title' => 'Paramètres', 'user_name' => (string) Session::get('user_full_name', '')],
         ]);
+    }
+
+    /**
+     * Active/désactive la barre de profiling (temps, SQL, mémoire) pour l'admin
+     * courant. Simple flag de session : visible uniquement dans son navigateur.
+     * Utilisé par le bouton des Paramètres ET par la croix de fermeture de la barre.
+     */
+    public function toggleDebugBar(): void
+    {
+        Auth::requireSuperAdmin();
+        Csrf::enforce($this->input('_csrf'));
+
+        $on = !Session::get('profiler_on', false);
+        Session::set('profiler_on', $on);
+        $this->flashSuccess($on
+            ? 'Mode debug activé — la barre de profiling s\'affiche en bas de page (pour vous uniquement).'
+            : 'Mode debug désactivé.');
+
+        // Retour à la page d'origine (la barre peut être fermée depuis n'importe quelle page).
+        $ref = $_SERVER['HTTP_REFERER'] ?? '/admin/settings';
+        $this->redirect($ref);
     }
 
     public function createSuperAdmin(): void

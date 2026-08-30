@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Helpers\Profiler;
 use App\Helpers\Renderer;
 use Dotenv\Dotenv;
 
@@ -62,6 +63,15 @@ final class Bootstrap
 
         // Session (cookies sécurisés)
         Session::start($appConfig['session']);
+
+        // Barre de profiling (temps, SQL, mémoire) : active en dev (APP_DEBUG),
+        // OU si un super-admin l'a activée depuis les Paramètres. C'est un flag de
+        // SESSION : la barre n'apparaît que dans le navigateur de cet admin, jamais
+        // pour les visiteurs. Décidé avant toute requête SQL pour instrumenter le PDO.
+        if ($appConfig['debug'] || Session::get('profiler_on', false)) {
+            Profiler::enable();
+            register_shutdown_function([Profiler::class, 'flush']);
+        }
 
         // Templates
         Renderer::init($rootPath . '/src/Templates');

@@ -50,12 +50,21 @@ final class Database
             self::$config['charset']
         );
 
+        // En debug, on instrumente les requêtes (chrono + comptage) via un PDO
+        // dérivé et un PDOStatement personnalisé. Transparent pour les repositories.
+        $profiling = \App\Helpers\Profiler::enabled();
+        $pdoClass = $profiling ? ProfilingPdo::class : PDO::class;
+        $options = self::$config['options'] ?? [];
+        if ($profiling) {
+            $options[PDO::ATTR_STATEMENT_CLASS] = [ProfilingStatement::class];
+        }
+
         try {
-            self::$instance = new PDO(
+            self::$instance = new $pdoClass(
                 $dsn,
                 self::$config['user'],
                 self::$config['pass'],
-                self::$config['options'] ?? []
+                $options
             );
         } catch (PDOException $e) {
             throw new RuntimeException('Connexion à la base de données impossible : ' . $e->getMessage(), 0, $e);

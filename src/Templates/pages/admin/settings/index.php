@@ -6,10 +6,40 @@ use App\Models\User;
 /**
  * @var list<User> $super_admins
  * @var ?string $current_user_id
+ * @var bool $profiler_on
  * @var string $csrf_token
  */
 $e = fn(?string $s): string => Renderer::escape((string) $s);
 ?>
+<div class="card" style="margin-bottom:20px;">
+    <div class="card__header"><h3 class="card__title">Mode debug (profiling)</h3></div>
+    <div class="card__body" style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+        <div>
+            <p style="margin:0 0 4px;">
+                Affiche une barre en bas de page avec le <strong>temps de chargement</strong>, le
+                <strong>nombre et le détail des requêtes SQL</strong>, la mémoire et les fichiers inclus.
+            </p>
+            <p style="margin:0;font-size:13px;color:var(--color-text-muted);">
+                Visible <strong>uniquement dans votre navigateur</strong> — jamais pour les visiteurs du site.
+                État actuel :
+                <?php if ($profiler_on): ?>
+                    <span class="badge badge--green">Activé</span>
+                <?php else: ?>
+                    <span class="badge">Désactivé</span>
+                <?php endif; ?>
+            </p>
+        </div>
+        <form method="POST" action="/admin/settings/debug-bar" style="margin:0;">
+            <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+            <?php if ($profiler_on): ?>
+                <button type="submit" class="btn btn--danger">Désactiver le mode debug</button>
+            <?php else: ?>
+                <button type="submit" class="btn btn--primary">Activer le mode debug</button>
+            <?php endif; ?>
+        </form>
+    </div>
+</div>
+
 <div class="admin-cols">
     <div>
         <div class="card">
