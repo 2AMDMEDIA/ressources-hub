@@ -12,6 +12,7 @@ use App\Controllers\AdminMessagesController;
 use App\Controllers\AdminMigrationsController;
 use App\Controllers\AdminResourcesController;
 use App\Controllers\AdminSettingsController;
+use App\Controllers\AdminUsersController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\DiagController;
@@ -93,6 +94,9 @@ return [
     ['POST', '/admin/settings/super-admins', [AdminSettingsController::class, 'createSuperAdmin'], 'super-admin'],
     ['POST', '/admin/settings/super-admins/{id}/remove', [AdminSettingsController::class, 'removeSuperAdmin'], 'super-admin'],
     ['POST', '/admin/settings/debug-bar', [AdminSettingsController::class, 'toggleDebugBar'], 'super-admin'],
+
+    // Réinitialiser le mot de passe de n'importe quel compte (super-admin)
+    ['POST', '/admin/users/{id}/password', [AdminUsersController::class, 'setPassword'], 'super-admin'],
 
     // Migrations base de données
     ['GET',  '/admin/migrations', [AdminMigrationsController::class, 'index'], 'super-admin'],

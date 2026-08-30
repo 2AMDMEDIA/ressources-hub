@@ -116,6 +116,20 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
             </form>
         <?php endif; ?>
 
+        <?php if ($manager !== null): ?>
+            <form method="POST" action="/admin/users/<?= $e($manager->id) ?>/password" class="card">
+                <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                <div class="card__header"><h3 class="card__title">Mot de passe du manager</h3></div>
+                <div class="card__body" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+                    <label class="field" style="flex:1;min-width:200px;">
+                        <span class="field__label">Nouveau mot de passe</span>
+                        <input type="password" name="password" minlength="8" required autocomplete="new-password" placeholder="8 caractères minimum">
+                    </label>
+                    <button type="submit" class="btn btn--primary">Définir le mot de passe</button>
+                </div>
+            </form>
+        <?php endif; ?>
+
         <!-- Employés -->
         <div class="card">
             <div class="card__header">
@@ -138,6 +152,16 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
                             <td><input type="email" name="email" form="<?= $fid ?>" value="<?= $e($emp->email) ?>" style="width:160px;"></td>
                             <td style="text-align:right;white-space:nowrap;">
                                 <button type="submit" form="<?= $fid ?>" class="btn btn--ghost btn--sm">Enreg.</button>
+                                <?php if ($emp->hasAccess()): ?>
+                                    <details style="display:inline-block;">
+                                        <summary class="btn btn--outline btn--sm" style="list-style:none;">MDP</summary>
+                                        <form method="POST" action="/admin/users/<?= $e($emp->userId) ?>/password" style="margin-top:6px;display:flex;gap:6px;justify-content:flex-end;">
+                                            <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                                            <input type="password" name="password" minlength="8" required autocomplete="new-password" placeholder="Nouveau mdp" style="padding:5px 7px;border:1px solid var(--color-border);border-radius:6px;width:140px;">
+                                            <button type="submit" class="btn btn--primary btn--sm">OK</button>
+                                        </form>
+                                    </details>
+                                <?php endif; ?>
                                 <form method="POST" action="/admin/employees/<?= $e($emp->id) ?>/delete" style="display:inline;" onsubmit="return confirm('Retirer cet employé ?');">
                                     <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
                                     <button type="submit" class="btn btn--danger btn--sm">×</button>

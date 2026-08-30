@@ -55,14 +55,20 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
                         </td>
                         <td><?= $e($sa->email) ?></td>
                         <td><?= $sa->lastLoginAt ? $e(date('d/m/Y H:i', strtotime($sa->lastLoginAt))) : '<span style="color:var(--color-text-muted)">jamais</span>' ?></td>
-                        <td style="text-align:right;">
+                        <td style="text-align:right;white-space:nowrap;">
+                            <details style="display:inline-block;position:relative;">
+                                <summary class="btn btn--outline btn--sm" style="list-style:none;">Mot de passe</summary>
+                                <form method="POST" action="/admin/users/<?= $e($sa->id) ?>/password" style="margin-top:8px;display:flex;gap:6px;justify-content:flex-end;">
+                                    <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                                    <input type="password" name="password" placeholder="Nouveau mot de passe" minlength="8" required autocomplete="new-password" style="padding:6px 8px;border:1px solid var(--color-border);border-radius:6px;">
+                                    <button type="submit" class="btn btn--primary btn--sm">Définir</button>
+                                </form>
+                            </details>
                             <?php if ($sa->id !== $current_user_id): ?>
                                 <form method="POST" action="/admin/settings/super-admins/<?= $e($sa->id) ?>/remove" style="display:inline;" onsubmit="return confirm('Supprimer le compte super-admin de <?= $e($sa->displayName()) ?> ?');">
                                     <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
                                     <button type="submit" class="btn btn--danger btn--sm">Supprimer</button>
                                 </form>
-                            <?php else: ?>
-                                <span style="color:var(--color-text-muted);font-size:13px;">—</span>
                             <?php endif; ?>
                         </td>
                     </tr>
