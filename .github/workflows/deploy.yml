@@ -1,4 +1,4 @@
-name: Deploy to Amen FTP
+name: Deploy to Amen FTP Server Dedié
 
 on:
   push:
