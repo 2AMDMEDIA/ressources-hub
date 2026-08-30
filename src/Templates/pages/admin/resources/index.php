@@ -66,6 +66,15 @@ $renderTree = function (array $nodes) use (&$renderTree, $e, $counts, $filter): 
             <table class="table">
                 <thead>
                     <tr><th>Titre</th><th>Catégorie</th><th>Format</th><th>ID Vimeo</th><th>Niveau</th><th>Statut</th><th></th></tr>
+                    <tr class="table-filters">
+                        <th><input type="text" data-col="0" placeholder="Rechercher un titre…"></th>
+                        <th><input type="text" data-col="1" placeholder="Catégorie…"></th>
+                        <th><input type="text" data-col="2" placeholder="Format…"></th>
+                        <th><input type="text" data-col="3" placeholder="ID Vimeo…"></th>
+                        <th><input type="text" data-col="4" placeholder="Niveau…"></th>
+                        <th><input type="text" data-col="5" placeholder="Statut…"></th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($resources as $r): ?>
@@ -106,6 +115,34 @@ $renderTree = function (array $nodes) use (&$renderTree, $e, $counts, $filter): 
                 <?php endforeach; ?>
                 </tbody>
             </table>
+            <p class="table-noresult" style="display:none;padding:16px;color:var(--color-text-muted);">Aucune ressource ne correspond à votre recherche.</p>
         <?php endif; ?>
     </div>
 </div>
+
+<script>
+(function () {
+    var filters = document.querySelectorAll('.table-filters input');
+    var rows = document.querySelectorAll('.res-list tbody tr');
+    var noResult = document.querySelector('.table-noresult');
+    if (!filters.length || !rows.length) { return; }
+    function apply() {
+        var active = [];
+        filters.forEach(function (inp) {
+            var v = inp.value.trim().toLowerCase();
+            if (v) { active.push({ col: parseInt(inp.dataset.col, 10), val: v }); }
+        });
+        var visible = 0;
+        rows.forEach(function (tr) {
+            var show = active.every(function (o) {
+                var cell = tr.cells[o.col];
+                return cell && cell.textContent.toLowerCase().indexOf(o.val) > -1;
+            });
+            tr.style.display = show ? '' : 'none';
+            if (show) { visible++; }
+        });
+        if (noResult) { noResult.style.display = visible === 0 ? 'block' : 'none'; }
+    }
+    filters.forEach(function (inp) { inp.addEventListener('input', apply); });
+})();
+</script>

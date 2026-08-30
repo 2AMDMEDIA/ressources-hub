@@ -589,6 +589,15 @@ a:hover { text-decoration: underline; }
 }
 .cat-tree__link.is-active .cat-tree__count { background: #1B3A6B; color: #fff; }
 
+/* Ligne de recherche sous les titres de colonnes (ressources) */
+.table-filters th { padding: 6px 8px; background: #fafafa; }
+.table-filters input {
+    width: 100%; box-sizing: border-box; padding: 6px 8px;
+    border: 1px solid var(--color-border, #e5e7eb); border-radius: 6px;
+    font-size: 13px; font-weight: 400;
+}
+.table-filters input:focus { outline: none; border-color: #5C8AAF; box-shadow: 0 0 0 3px rgba(92,138,175,0.18); }
+
 /* -----------------------------------------------------------------------------
    Product detail header (image + meta)
    ----------------------------------------------------------------------------- */
