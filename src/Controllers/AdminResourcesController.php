@@ -35,12 +35,15 @@ final class AdminResourcesController extends BaseController
     {
         Auth::requireSuperAdmin();
         $catRepo = new CategoryRepository();
+        $resRepo = new ResourceRepository();
         $filter = $this->input('category');
-        $resources = (new ResourceRepository())->listWithCategory($filter);
+        $resources = $resRepo->listWithCategory($filter);
         $this->renderAdmin('pages.admin.resources.index', [
             'title' => 'Ressources',
             'resources' => $resources,
             'categories' => $catRepo->flatList(),
+            'tree' => $catRepo->tree(),
+            'counts' => $resRepo->countsByCategory(),
             'filter' => $filter,
         ], 'resources', 'Ressources — Contenus');
     }

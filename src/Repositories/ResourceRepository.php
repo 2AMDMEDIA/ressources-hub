@@ -65,6 +65,22 @@ final class ResourceRepository
         return array_map([Resource::class, 'fromRow'], $stmt->fetchAll());
     }
 
+    /**
+     * Nombre de ressources rattachées directement à chaque catégorie.
+     * @return array<string,int> category_id => nombre
+     */
+    public function countsByCategory(): array
+    {
+        $rows = $this->pdo()->query(
+            'SELECT category_id, COUNT(*) AS n FROM resources WHERE category_id IS NOT NULL GROUP BY category_id'
+        )->fetchAll();
+        $out = [];
+        foreach ($rows as $r) {
+            $out[$r['category_id']] = (int) $r['n'];
+        }
+        return $out;
+    }
+
     /** @param array<string,mixed> $d */
     public function create(array $d): string
     {
