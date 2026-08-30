@@ -54,6 +54,7 @@ jobs:
           set net:reconnect-interval-base 5
           set mirror:parallel-transfer-count 2
           set xfer:clobber yes
+          mkdir -f www
           mirror --reverse --verbose --continue \
                  --exclude '^\.git/' \
                  --exclude '^\.github/' \
@@ -64,6 +65,6 @@ jobs:
                  --exclude-glob '*.log' \
                  --exclude-glob '.editorconfig' \
                  --exclude-glob 'phpunit.xml*' \
-                 ./ ./
+                 ./ ./www/
           bye
           LFTP_END
