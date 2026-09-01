@@ -54,8 +54,10 @@ use App\Helpers\Renderer;
         </div>
         <div class="offer-teaser__price">
             <div class="price-badge">
-                <span class="price-badge__label">1er mois + Audit sur site</span>
+                <span class="price-badge__label">1er mois</span>
                 <span class="price-badge__amount">990€</span>
+                <span class="price-badge__feature">+ Audit sur site</span>
+                <span class="price-badge__feature">+ Accompagnement + Ressources pédagogiques</span>
             </div>
             <div class="price-badge price-badge--main">
                 <span class="price-badge__label">puis Accompagnement + Ressources pédagogiques</span>
