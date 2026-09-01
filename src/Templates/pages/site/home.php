@@ -56,8 +56,7 @@ use App\Helpers\Renderer;
             <div class="price-badge">
                 <span class="price-badge__label">1er mois</span>
                 <span class="price-badge__amount">990€</span>
-                <span class="price-badge__feature">+ Audit sur site</span>
-                <span class="price-badge__feature">+ Accompagnement + Ressources pédagogiques</span>
+                <span class="price-badge__feature">Audit sur site + Accompagnement + Ressources pédagogiques</span>
             </div>
             <div class="price-badge price-badge--main">
                 <span class="price-badge__label">les 11 mois suivants</span>
