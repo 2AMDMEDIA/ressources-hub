@@ -198,6 +198,8 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 .price-badge__strike { display: block; font-size: 14px; color: var(--muted); }
 .price-badge__unit { display: block; font-size: 14px; color: var(--muted); }
 .price-badge--main .price-badge__unit { color: var(--sky); }
+.price-badge__per { font-size: 22px; font-weight: 700; }
+.price-badge--main .price-badge__per { color: var(--sky); }
 .price-badge__feature { display: block; font-size: 14px; font-weight: 600; color: var(--navy); margin-top: 6px; }
 .price-badge__feature:first-of-type { margin-top: 10px; }
 .price-badge--main .price-badge__feature { color: var(--sky); }

@@ -60,9 +60,9 @@ use App\Helpers\Renderer;
                 <span class="price-badge__feature">+ Accompagnement + Ressources pédagogiques</span>
             </div>
             <div class="price-badge price-badge--main">
-                <span class="price-badge__label">puis Accompagnement + Ressources pédagogiques</span>
-                <span class="price-badge__amount">390€</span>
-                <span class="price-badge__unit">par mois</span>
+                <span class="price-badge__label">les 11 mois suivants</span>
+                <span class="price-badge__amount">390€<span class="price-badge__per">/mois</span></span>
+                <span class="price-badge__feature">Accompagnement + Ressources pédagogiques</span>
             </div>
         </div>
     </div>
