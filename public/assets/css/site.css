@@ -192,7 +192,7 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
     padding: 22px 26px; text-align: center;
 }
 .price-badge--main { background: var(--navy); border-color: var(--navy); }
-.price-badge__label { display: block; font-size: 14px; font-weight: 600; color: var(--muted); }
+.price-badge__label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); }
 .price-badge--main .price-badge__label { color: #C8DFF4; }
 .price-badge__amount { display: block; font-size: 52px; font-weight: 800; color: var(--orange); line-height: 1.05; }
 .price-badge__strike { display: block; font-size: 14px; color: var(--muted); }
@@ -200,7 +200,7 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 .price-badge--main .price-badge__unit { color: #C8DFF4; }
 .price-badge__per { font-size: 22px; font-weight: 700; }
 .price-badge--main .price-badge__per { color: #C8DFF4; }
-.price-badge__feature { display: block; font-size: 14px; font-weight: 600; color: var(--navy); margin-top: 6px; }
+.price-badge__feature { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-top: 6px; }
 .price-badge__feature:first-of-type { margin-top: 10px; }
 .price-badge--main .price-badge__feature { color: #C8DFF4; }
 
