@@ -21,7 +21,7 @@ use App\Helpers\Renderer;
     <div class="container">
         <h2 class="offer-launch-title">Offre de lancement</h2>
 
-        <div class="offer-teaser__price" style="max-width:420px;margin:0 auto;">
+        <div class="pricing-two">
             <div class="price-badge">
                 <span class="price-badge__label">1er mois</span>
                 <span class="price-badge__amount">990€</span>
