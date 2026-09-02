@@ -187,9 +187,6 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 .offer-teaser { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: center; }
 .offer-teaser__text p { color: var(--muted); margin: 0 0 24px; font-size: 17px; }
 .offer-teaser__price { display: flex; flex-direction: column; gap: 18px; }
-/* Page Tarif : les deux encarts côte à côte */
-.pricing-two { display: flex; gap: 24px; justify-content: center; align-items: stretch; flex-wrap: wrap; max-width: 760px; margin: 0 auto; }
-.pricing-two .price-badge { flex: 1 1 300px; display: flex; flex-direction: column; justify-content: center; }
 .price-badge {
     background: #fff; border: 2px solid var(--line); border-radius: var(--radius);
     padding: 22px 26px; text-align: center;
@@ -301,6 +298,10 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 .offer-plan__step--main .offer-plan__when { color: var(--sky); }
 .offer-plan__amount { font-size: 56px; font-weight: 800; color: var(--orange); line-height: 1.05; }
 .offer-plan__strike { font-size: 14px; color: var(--muted); text-decoration: line-through; }
+.offer-plan__feature { margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--navy); }
+.offer-plan__step--main .offer-plan__feature { color: #C8DFF4; }
+.offer-plan__per { font-size: 22px; font-weight: 700; }
+.offer-plan__step--main .offer-plan__per { color: #C8DFF4; }
 .offer-plan__unit { font-size: 14px; color: var(--muted); }
 .offer-plan__step--main .offer-plan__unit { color: var(--sky); }
 .offer-plan__label { margin-top: 10px; font-weight: 700; color: var(--ink); }

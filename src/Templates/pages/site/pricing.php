@@ -21,20 +21,21 @@ use App\Helpers\Renderer;
     <div class="container">
         <h2 class="offer-launch-title">Offre de lancement</h2>
 
-        <div class="pricing-two">
-            <div class="price-badge">
-                <span class="price-badge__label">1er mois</span>
-                <span class="price-badge__amount">990€</span>
-                <span class="price-badge__feature">Audit sur site + Accompagnement + Ressources pédagogiques</span>
+        <div class="offer-plan">
+            <div class="offer-plan__steps">
+                <div class="offer-plan__step">
+                    <span class="offer-plan__when">1<sup>er</sup> mois</span>
+                    <span class="offer-plan__amount">990€</span>
+                    <span class="offer-plan__feature">Audit sur site + Accompagnement + Ressources pédagogiques</span>
+                </div>
+                <span class="offer-plan__arrow" aria-hidden="true">›</span>
+                <div class="offer-plan__step offer-plan__step--main">
+                    <span class="offer-plan__when">les 11 mois suivants</span>
+                    <span class="offer-plan__amount">390€<span class="offer-plan__per">/mois</span></span>
+                    <span class="offer-plan__feature">Accompagnement + Ressources pédagogiques</span>
+                </div>
             </div>
-            <div class="price-badge price-badge--main">
-                <span class="price-badge__label">les 11 mois suivants</span>
-                <span class="price-badge__amount">390€<span class="price-badge__per">/mois</span></span>
-                <span class="price-badge__feature">Accompagnement + Ressources pédagogiques</span>
-            </div>
-        </div>
-        <div style="text-align:center;margin-top:24px;">
-            <a href="/contact" class="btn btn--accent btn--lg">Je démarre</a>
+            <a href="/contact" class="btn btn--accent btn--lg offer-plan__cta">Je démarre</a>
         </div>
 
         <div class="offer-detail">
