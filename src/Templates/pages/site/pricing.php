@@ -1,5 +1,10 @@
 <?php
-/** Page Tarif — offre de lancement (audit initial + accompagnement). */
+use App\Helpers\Renderer;
+
+/**
+ * Page Tarif — offre de lancement (audit initial + accompagnement).
+ * @var array<int,array{0:string,1:string}> $domains
+ */
 ?>
 <section class="page-hero">
     <div class="container">
@@ -16,22 +21,20 @@
     <div class="container">
         <h2 class="offer-launch-title">Offre de lancement</h2>
 
-        <div class="offer-plan">
-            <div class="offer-plan__steps">
-                <div class="offer-plan__step">
-                    <span class="offer-plan__when">1<sup>er</sup> mois + Audit sur site</span>
-                    <span class="offer-plan__amount">490€</span>
-                    <span class="offer-plan__strike">au lieu de 990€</span>
-                </div>
-                <span class="offer-plan__arrow" aria-hidden="true">›</span>
-                <div class="offer-plan__step offer-plan__step--main">
-                    <span class="offer-plan__when">Accompagnement + Ressources pédagogiques</span>
-                    <span class="offer-plan__amount">290€</span>
-                    <span class="offer-plan__strike">au lieu de 390€</span>
-                    <span class="offer-plan__unit">par mois</span>
-                </div>
+        <div class="offer-teaser__price" style="max-width:420px;margin:0 auto;">
+            <div class="price-badge">
+                <span class="price-badge__label">1er mois</span>
+                <span class="price-badge__amount">990€</span>
+                <span class="price-badge__feature">Audit sur site + Accompagnement + Ressources pédagogiques</span>
             </div>
-            <a href="/contact" class="btn btn--accent btn--lg offer-plan__cta">Je démarre</a>
+            <div class="price-badge price-badge--main">
+                <span class="price-badge__label">les 11 mois suivants</span>
+                <span class="price-badge__amount">390€<span class="price-badge__per">/mois</span></span>
+                <span class="price-badge__feature">Accompagnement + Ressources pédagogiques</span>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:24px;">
+            <a href="/contact" class="btn btn--accent btn--lg">Je démarre</a>
         </div>
 
         <div class="offer-detail">
@@ -68,5 +71,22 @@
         <p>Un comité d'experts stratégique externalisé, disponible tout au long de l'année,
            sur tous vos enjeux — de la vente au pilotage, du marketing aux ressources humaines.</p>
         <a href="/contact" class="btn btn--navy btn--lg">Discutons de votre club</a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section__title">Ressources : des sujets 100% terrain</h2>
+        <div class="domains-grid">
+            <?php foreach ($domains as [$name, $desc]): ?>
+                <div class="domain">
+                    <span class="domain__chev">›</span>
+                    <div>
+                        <h3 class="domain__name"><?= Renderer::escape($name) ?></h3>
+                        <p class="domain__desc"><?= Renderer::escape($desc) ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>

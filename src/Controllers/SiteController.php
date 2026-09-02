@@ -184,6 +184,7 @@ final class SiteController extends BaseController
     {
         $this->renderPublic('pages.site.pricing', [
             'title' => 'Tarifs — RESSOURCES',
+            'domains' => self::DOMAINS,
         ], 'prix');
     }
 
