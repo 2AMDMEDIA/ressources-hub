@@ -25,13 +25,15 @@ use App\Helpers\Renderer;
             <div class="offer-plan__steps">
                 <div class="offer-plan__step">
                     <span class="offer-plan__when">1<sup>er</sup> mois</span>
-                    <span class="offer-plan__amount">990€</span>
+                    <span class="offer-plan__amount">490€</span>
+                    <span class="offer-plan__strike">au lieu de 990€</span>
                     <span class="offer-plan__feature">Audit sur site + Accompagnement + Ressources pédagogiques</span>
                 </div>
                 <span class="offer-plan__arrow" aria-hidden="true">›</span>
                 <div class="offer-plan__step offer-plan__step--main">
                     <span class="offer-plan__when">les 11 mois suivants</span>
-                    <span class="offer-plan__amount">390€<span class="offer-plan__per">/mois</span></span>
+                    <span class="offer-plan__amount">290€<span class="offer-plan__per">/mois</span></span>
+                    <span class="offer-plan__strike">au lieu de 390€</span>
                     <span class="offer-plan__feature">Accompagnement + Ressources pédagogiques</span>
                 </div>
             </div>

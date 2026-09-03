@@ -393,7 +393,7 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.1; }
 
 /* Page tarif — titre offre de lancement + strike sur l'encart foncé */
 .offer-launch-title { text-align: center; font-size: clamp(24px, 3.2vw, 34px); font-weight: 800; color: var(--navy); margin: 0 0 28px; letter-spacing: -0.01em; }
-.offer-plan__step--main .offer-plan__strike { color: var(--sky); }
+.offer-plan__step--main .offer-plan__strike { color: #C8DFF4; }
 
 /* ---------------------------------------------------------------- Programmes */
 /* Grille cartes catégories (3 par ligne) */
