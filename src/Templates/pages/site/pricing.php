@@ -66,16 +66,6 @@ use App\Helpers\Renderer;
 </section>
 
 <section class="section section--tint">
-    <div class="container promise">
-        <p class="eyebrow tx-orange">la promesse</p>
-        <h2 class="section__title">Mieux piloter, mieux décider, mieux performer.</h2>
-        <p>Un comité d'experts stratégique externalisé, disponible tout au long de l'année,
-           sur tous vos enjeux — de la vente au pilotage, du marketing aux ressources humaines.</p>
-        <a href="/contact" class="btn btn--navy btn--lg">Discutons de votre club</a>
-    </div>
-</section>
-
-<section class="section">
     <div class="container">
         <h2 class="section__title">Ressources : des sujets 100% terrain</h2>
         <div class="domains-grid">
@@ -89,5 +79,15 @@ use App\Helpers\Renderer;
                 </div>
             <?php endforeach; ?>
         </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container promise">
+        <p class="eyebrow tx-orange">la promesse</p>
+        <h2 class="section__title">Mieux piloter, mieux décider, mieux performer.</h2>
+        <p>Un comité d'experts stratégique externalisé, disponible tout au long de l'année,
+           sur tous vos enjeux — de la vente au pilotage, du marketing aux ressources humaines.</p>
+        <a href="/contact" class="btn btn--navy btn--lg">Discutons de votre club</a>
     </div>
 </section>
