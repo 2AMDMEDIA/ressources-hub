@@ -48,6 +48,22 @@ final class AdminResourcesController extends BaseController
         ], 'resources', 'Ressources — Contenus', wide: true);
     }
 
+    /** Enregistre le nouvel ordre des ressources (drag-and-drop). */
+    public function reorder(): void
+    {
+        Auth::requireSuperAdmin();
+        Csrf::enforce($this->input('_csrf'));
+
+        $raw = (string) ($this->input('order') ?? '');
+        $ids = array_values(array_filter(array_map('trim', explode(',', $raw))));
+        if ($ids !== []) {
+            (new ResourceRepository())->updatePositions($ids);
+            $this->flashSuccess('Ordre des ressources enregistré.');
+        }
+        $ref = $_SERVER['HTTP_REFERER'] ?? '/admin/resources';
+        $this->redirect($ref);
+    }
+
     public function showNew(): void
     {
         Auth::requireSuperAdmin();

@@ -41,6 +41,7 @@ final class Resource
         public ?string $publishedAt,
         public string $createdAt,
         public string $updatedAt,
+        public int $position = 0,
     ) {
     }
 
@@ -65,6 +66,7 @@ final class Resource
             publishedAt: $row['published_at'] ?? null,
             createdAt: $row['created_at'],
             updatedAt: $row['updated_at'],
+            position: (int) ($row['position'] ?? 0),
         );
     }
 

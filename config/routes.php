@@ -104,6 +104,7 @@ return [
 
     // Ressources — contenus
     ['GET',  '/admin/resources', [AdminResourcesController::class, 'index'], 'super-admin'],
+    ['POST', '/admin/resources/reorder', [AdminResourcesController::class, 'reorder'], 'super-admin'],
     ['GET',  '/admin/resources/new', [AdminResourcesController::class, 'showNew'], 'super-admin'],
     ['POST', '/admin/resources', [AdminResourcesController::class, 'create'], 'super-admin'],
     ['GET',  '/admin/resources/{id}/edit', [AdminResourcesController::class, 'edit'], 'super-admin'],

@@ -30,18 +30,24 @@ final class ResourceRepository
      */
     public function listWithCategory(?string $categoryId = null): array
     {
-        $sql = 'SELECT r.*, c.name AS category_name
+        $base = 'SELECT r.*, c.name AS category_name
                 FROM resources r
                 LEFT JOIN categories c ON c.id = r.category_id';
         $params = [];
         if ($categoryId !== null && $categoryId !== '') {
-            $sql .= ' WHERE r.category_id = :cat';
+            $base .= ' WHERE r.category_id = :cat';
             $params[':cat'] = $categoryId;
         }
-        $sql .= ' ORDER BY r.created_at DESC';
-        $stmt = $this->pdo()->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll();
+        // Tri par position ; repli si la colonne n'existe pas encore (migration 013 non appliquée).
+        try {
+            $stmt = $this->pdo()->prepare($base . ' ORDER BY r.position ASC, r.created_at DESC');
+            $stmt->execute($params);
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            $stmt = $this->pdo()->prepare($base . ' ORDER BY r.created_at DESC');
+            $stmt->execute($params);
+            return $stmt->fetchAll();
+        }
     }
 
     /**
@@ -56,13 +62,17 @@ final class ResourceRepository
             return [];
         }
         $in = implode(',', array_fill(0, count($categoryIds), '?'));
-        $stmt = $this->pdo()->prepare(
-            "SELECT * FROM resources
-             WHERE status = 'published' AND category_id IN ($in)
-             ORDER BY is_spotlight DESC, COALESCE(published_at, created_at) DESC"
-        );
-        $stmt->execute($categoryIds);
-        return array_map([Resource::class, 'fromRow'], $stmt->fetchAll());
+        $base = "SELECT * FROM resources WHERE status = 'published' AND category_id IN ($in)";
+        // Tri par position ; repli si la colonne n'existe pas encore (migration 013 non appliquée).
+        try {
+            $stmt = $this->pdo()->prepare($base . ' ORDER BY position ASC, is_spotlight DESC, COALESCE(published_at, created_at) DESC');
+            $stmt->execute($categoryIds);
+            return array_map([Resource::class, 'fromRow'], $stmt->fetchAll());
+        } catch (\PDOException $e) {
+            $stmt = $this->pdo()->prepare($base . ' ORDER BY is_spotlight DESC, COALESCE(published_at, created_at) DESC');
+            $stmt->execute($categoryIds);
+            return array_map([Resource::class, 'fromRow'], $stmt->fetchAll());
+        }
     }
 
     /**
@@ -79,6 +89,26 @@ final class ResourceRepository
             $out[$r['category_id']] = (int) $r['n'];
         }
         return $out;
+    }
+
+    /**
+     * Enregistre l'ordre des ressources : position = index dans la liste fournie.
+     * @param list<string> $orderedIds ids dans le nouvel ordre d'affichage
+     */
+    public function updatePositions(array $orderedIds): void
+    {
+        $pdo = $this->pdo();
+        $stmt = $pdo->prepare('UPDATE resources SET position = :pos, updated_at = NOW() WHERE id = :id');
+        $pdo->beginTransaction();
+        try {
+            foreach (array_values($orderedIds) as $i => $id) {
+                $stmt->execute([':pos' => $i, ':id' => $id]);
+            }
+            $pdo->commit();
+        } catch (\Throwable $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
     }
 
     /** @param array<string,mixed> $d */

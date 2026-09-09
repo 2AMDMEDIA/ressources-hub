@@ -598,6 +598,13 @@ a:hover { text-decoration: underline; }
 }
 .table-filters input:focus { outline: none; border-color: #5C8AAF; box-shadow: 0 0 0 3px rgba(92,138,175,0.18); }
 
+/* Mode réorganisation (drag-and-drop des ressources) */
+.reorder-mode tbody tr { cursor: grab; }
+.reorder-mode tbody tr.dragging { opacity: .5; background: #eef4fa; }
+.reorder-mode tbody td:last-child { visibility: hidden; }           /* masque les actions pendant le tri */
+.reorder-mode tbody a { pointer-events: none; color: inherit; }     /* évite d'ouvrir un lien en glissant */
+.reorder-mode tbody td:first-child strong::before { content: "\2807"; color: #9aa7b5; margin-right: 8px; }
+
 /* -----------------------------------------------------------------------------
    Product detail header (image + meta)
    ----------------------------------------------------------------------------- */

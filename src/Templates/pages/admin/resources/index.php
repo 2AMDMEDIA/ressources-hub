@@ -36,8 +36,20 @@ $renderTree = function (array $nodes) use (&$renderTree, $e, $counts, $filter): 
 };
 ?>
 <div class="page-actions" style="display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-bottom:16px;">
-    <a href="/admin/resources/new" class="btn btn--primary">+ Nouvelle ressource</a>
+    <?php if (!empty($resources)): ?>
+        <button type="button" id="reorder-toggle" class="btn btn--outline">↕ Réorganiser</button>
+        <form method="POST" action="/admin/resources/reorder" id="reorder-form" style="display:none;gap:8px;align-items:center;">
+            <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+            <input type="hidden" name="order" id="reorder-order" value="">
+            <button type="submit" class="btn btn--primary">Enregistrer l'ordre</button>
+            <button type="button" id="reorder-cancel" class="btn btn--ghost">Annuler</button>
+        </form>
+    <?php endif; ?>
+    <a href="/admin/resources/new" class="btn btn--primary" id="new-resource-btn">+ Nouvelle ressource</a>
 </div>
+<p id="reorder-hint" style="display:none;margin:0 0 16px;padding:10px 14px;background:#eef4fa;border:1px solid #cfe0f0;border-radius:8px;color:#1B3A6B;font-size:14px;">
+    Glissez-déposez les lignes pour changer l'ordre, puis cliquez sur « Enregistrer l'ordre ». Cet ordre définit l'affichage sur le site.
+</p>
 
 <div class="res-layout">
     <!-- Colonne gauche : arborescence complète des catégories -->
@@ -78,7 +90,7 @@ $renderTree = function (array $nodes) use (&$renderTree, $e, $counts, $filter): 
                 </thead>
                 <tbody>
                 <?php foreach ($resources as $r): ?>
-                    <tr>
+                    <tr data-id="<?= $e($r['id']) ?>">
                         <td>
                             <a href="/admin/resources/<?= $e($r['id']) ?>/edit"><strong><?= $e($r['title']) ?></strong></a>
                             <?php if (!empty($r['is_spotlight'])): ?><span class="badge badge--amber" style="margin-left:6px;">★ En avant</span><?php endif; ?>
@@ -144,5 +156,68 @@ $renderTree = function (array $nodes) use (&$renderTree, $e, $counts, $filter): 
         if (noResult) { noResult.style.display = visible === 0 ? 'block' : 'none'; }
     }
     filters.forEach(function (inp) { inp.addEventListener('input', apply); });
+})();
+
+// --- Réorganisation par glisser-déposer ---
+(function () {
+    var toggle = document.getElementById('reorder-toggle');
+    if (!toggle) { return; }
+    var form = document.getElementById('reorder-form');
+    var cancel = document.getElementById('reorder-cancel');
+    var orderInput = document.getElementById('reorder-order');
+    var hint = document.getElementById('reorder-hint');
+    var newBtn = document.getElementById('new-resource-btn');
+    var list = document.querySelector('.res-list');
+    var tbody = document.querySelector('.res-list tbody');
+    var filterRow = document.querySelector('.table-filters');
+    if (!tbody) { return; }
+    var dragEl = null;
+
+    function enterMode() {
+        list.classList.add('reorder-mode');
+        toggle.style.display = 'none';
+        if (newBtn) { newBtn.style.display = 'none'; }
+        form.style.display = 'inline-flex';
+        if (hint) { hint.style.display = 'block'; }
+        if (filterRow) { filterRow.style.display = 'none'; }
+        tbody.querySelectorAll('tr').forEach(function (tr) {
+            tr.style.display = '';            // annule un filtre de recherche éventuel
+            tr.setAttribute('draggable', 'true');
+        });
+    }
+
+    function afterElement(y) {
+        var els = [].slice.call(tbody.querySelectorAll('tr:not(.dragging)'));
+        return els.reduce(function (closest, child) {
+            var box = child.getBoundingClientRect();
+            var offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) { return { offset: offset, element: child }; }
+            return closest;
+        }, { offset: -Infinity, element: null }).element;
+    }
+
+    tbody.addEventListener('dragstart', function (e) {
+        var tr = e.target.closest('tr');
+        if (!tr) { return; }
+        dragEl = tr;
+        setTimeout(function () { tr.classList.add('dragging'); }, 0);
+    });
+    tbody.addEventListener('dragend', function () {
+        if (dragEl) { dragEl.classList.remove('dragging'); dragEl = null; }
+    });
+    tbody.addEventListener('dragover', function (e) {
+        if (!dragEl) { return; }
+        e.preventDefault();
+        var after = afterElement(e.clientY);
+        if (after == null) { tbody.appendChild(dragEl); }
+        else { tbody.insertBefore(dragEl, after); }
+    });
+
+    toggle.addEventListener('click', enterMode);
+    cancel.addEventListener('click', function () { location.reload(); });
+    form.addEventListener('submit', function () {
+        var ids = [].slice.call(tbody.querySelectorAll('tr')).map(function (tr) { return tr.dataset.id; });
+        orderInput.value = ids.join(',');
+    });
 })();
 </script>
