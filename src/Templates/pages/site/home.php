@@ -7,6 +7,13 @@ use App\Helpers\Renderer;
 <section class="hero">
     <div class="hero__inner">
         <p class="hero__baseline">Échanger, S'entraîner, Performer.</p>
+        <div class="hero__video">
+            <div class="video-embed">
+                <iframe src="https://player.vimeo.com/video/1224020696?dnt=1"
+                        frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+                        title="Vidéo d'introduction RESSOURCES"></iframe>
+            </div>
+        </div>
         <h1 class="hero__title">Moins de solitude,<br>plus de lucidité,<br><span class="tx-orange">meilleures décisions.</span></h1>
         <p class="hero__lead">
             Le comité d'experts stratégique externalisé pour les dirigeants, exploitants,
