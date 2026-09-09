@@ -9,7 +9,7 @@ use App\Helpers\Renderer;
         <p class="hero__baseline">Échanger, S'entraîner, Performer.</p>
         <div class="hero__video">
             <div class="video-embed">
-                <iframe src="https://player.vimeo.com/video/1224020696?dnt=1"
+                <iframe src="https://player.vimeo.com/video/1224020696?background=1&amp;dnt=1"
                         frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
                         title="Vidéo d'introduction RESSOURCES"></iframe>
             </div>
