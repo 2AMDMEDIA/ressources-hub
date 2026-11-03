@@ -61,6 +61,55 @@ final class DiagController extends BaseController
             $lines[] = 'Raison       : ' . $e->getMessage();
         }
 
+        // --- Test SMTP / email ---
+        $lines[] = '';
+        $lines[] = '=== SMTP / Email ===';
+        $host = (string) ($_ENV['MAIL_HOST'] ?? '');
+        $port = (string) ($_ENV['MAIL_PORT'] ?? '587');
+        $enc  = strtolower((string) ($_ENV['MAIL_ENCRYPTION'] ?? 'tls'));
+        $user = (string) ($_ENV['MAIL_USER'] ?? '');
+        $from = (string) ($_ENV['MAIL_FROM_EMAIL'] ?? '');
+        if ($host === '') {
+            $lines[] = 'MAIL_HOST vide → aucun envoi (emails loggés dans storage/logs/mail.log).';
+        } else {
+            $lines[] = 'Hôte       : ' . $host . ':' . $port . ' (' . $enc . ')';
+            $lines[] = 'User       : ' . ($user !== '' ? mb_substr($user, 0, 3) . '***' : '(vide)');
+            $lines[] = 'From       : ' . $from;
+            $mailto = (string) ($this->input('mailto') ?? '');
+            $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = $host;
+                $mail->Port = (int) $port;
+                $mail->SMTPAuth = $user !== '';
+                $mail->Username = $user;
+                $mail->Password = (string) ($_ENV['MAIL_PASS'] ?? '');
+                $mail->CharSet = 'UTF-8';
+                $mail->Timeout = 12;
+                if ($enc === 'ssl') { $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS; }
+                elseif ($enc === 'tls') { $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS; }
+
+                $tm = microtime(true);
+                if ($mailto !== '') {
+                    $mail->setFrom($from ?: 'noreply@example.com', (string) ($_ENV['MAIL_FROM_NAME'] ?? 'RESSOURCES'));
+                    $mail->addAddress($mailto);
+                    $mail->Subject = 'Test SMTP RESSOURCES';
+                    $mail->Body = 'Test SMTP OK — ' . date('c');
+                    $mail->send();
+                    $lines[] = sprintf('Envoi test : OK vers %s en %.0f ms', $mailto, (microtime(true) - $tm) * 1000);
+                } else {
+                    $ok = $mail->smtpConnect();
+                    $lines[] = sprintf('Connexion+auth : %s en %.0f ms', $ok ? 'OK' : 'ECHEC', (microtime(true) - $tm) * 1000);
+                    $mail->smtpClose();
+                    $lines[] = '(ajoutez &mailto=votre@email pour un envoi réel de test)';
+                }
+            } catch (\Throwable $e) {
+                $lines[] = 'SMTP : ECHEC — ' . $e->getMessage();
+                if ($mail->ErrorInfo !== '') { $lines[] = 'Détail PHPMailer : ' . $mail->ErrorInfo; }
+            }
+        }
+
+        $lines[] = '';
         $lines[] = 'Mémoire    : ' . round(memory_get_peak_usage(true) / 1048576, 1) . ' Mo';
         $lines[] = 'Temps PHP total (depuis arrivée requête) : '
             . sprintf('%.1f ms', (microtime(true) - (float) ($_SERVER['REQUEST_TIME_FLOAT'] ?? microtime(true))) * 1000);
