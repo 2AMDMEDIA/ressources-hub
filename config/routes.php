@@ -137,6 +137,7 @@ return [
     // Employés (équipe des clubs)
     ['GET',  '/admin/employees', [AdminEmployeesController::class, 'index'], 'super-admin'],
     ['POST', '/admin/clubs/{clubId}/employees', [AdminEmployeesController::class, 'store'], 'super-admin'],
+    ['POST', '/admin/employees/{id}/grant-access', [AdminEmployeesController::class, 'grantAccess'], 'super-admin'],
     ['POST', '/admin/employees/{id}/update', [AdminEmployeesController::class, 'update'], 'super-admin'],
     ['POST', '/admin/employees/{id}/delete', [AdminEmployeesController::class, 'delete'], 'super-admin'],
 ];

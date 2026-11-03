@@ -153,6 +153,7 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
                             <td style="text-align:right;white-space:nowrap;">
                                 <button type="submit" form="<?= $fid ?>" class="btn btn--ghost btn--sm">Enreg.</button>
                                 <?php if ($emp->hasAccess()): ?>
+                                    <span class="badge badge--green" style="margin-right:2px;">Accès</span>
                                     <details style="display:inline-block;">
                                         <summary class="btn btn--outline btn--sm" style="list-style:none;">MDP</summary>
                                         <form method="POST" action="/admin/users/<?= $e($emp->userId) ?>/password" style="margin-top:6px;display:flex;gap:6px;justify-content:flex-end;">
@@ -161,6 +162,11 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
                                             <button type="submit" class="btn btn--primary btn--sm">OK</button>
                                         </form>
                                     </details>
+                                <?php elseif ($emp->email): ?>
+                                    <form method="POST" action="/admin/employees/<?= $e($emp->id) ?>/grant-access" style="display:inline;" onsubmit="return confirm('Créer l\'accès et envoyer l\'email d\'invitation à <?= $e($emp->email) ?> ?');">
+                                        <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
+                                        <button type="submit" class="btn btn--secondary btn--sm">Donner l'accès</button>
+                                    </form>
                                 <?php endif; ?>
                                 <form method="POST" action="/admin/employees/<?= $e($emp->id) ?>/delete" style="display:inline;" onsubmit="return confirm('Retirer cet employé ?');">
                                     <input type="hidden" name="_csrf" value="<?= $e($csrf_token) ?>">
@@ -181,6 +187,7 @@ $e = fn(?string $s): string => Renderer::escape((string) $s);
                     <label class="field" style="flex:2;min-width:150px;"><span class="field__label">Email</span><input type="email" name="email"></label>
                     <button type="submit" class="btn btn--primary">Ajouter</button>
                 </form>
+                <p style="margin:10px 0 0;font-size:13px;color:var(--color-text-muted);">Avec un email, l'employé reçoit aussitôt une invitation pour définir son mot de passe. Sans email, c'est une simple fiche (vous pourrez « Donner l'accès » plus tard).</p>
             </div>
         </div>
     </div>
