@@ -104,20 +104,26 @@ final class AuthController extends BaseController
         $user = $this->users->findByEmail($email);
 
         // Toujours afficher le même message pour ne pas révéler les emails inscrits.
+        // L'envoi est encadré : un échec SMTP ne doit jamais provoquer d'erreur 500
+        // (ni révéler qu'un compte existe). On logue et on affiche le message neutre.
         if ($user !== null && !$user->needsPasswordSetup) {
-            $this->tokens->purgeForUser($user->id, 'reset');
-            $hours = (int) (Bootstrap::config('app.tokens.reset_lifetime_hours') ?? 1);
-            $token = $this->tokens->create($user->id, 'reset', $hours * 3600);
+            try {
+                $this->tokens->purgeForUser($user->id, 'reset');
+                $hours = (int) (Bootstrap::config('app.tokens.reset_lifetime_hours') ?? 1);
+                $token = $this->tokens->create($user->id, 'reset', $hours * 3600);
 
-            $url = rtrim((string) Bootstrap::config('app.url'), '/')
-                . '/reset-password?token=' . urlencode($token);
+                $url = rtrim((string) Bootstrap::config('app.url'), '/')
+                    . '/reset-password?token=' . urlencode($token);
 
-            $body = '<p>Bonjour,</p>'
-                . '<p>Vous avez demandé la réinitialisation de votre mot de passe sur ' . htmlspecialchars((string) Bootstrap::config('app.name')) . '.</p>'
-                . '<p><a href="' . htmlspecialchars($url) . '">Cliquez ici pour définir un nouveau mot de passe</a> (lien valable ' . $hours . 'h).</p>'
-                . '<p>Si vous n\'avez pas fait cette demande, ignorez cet email.</p>';
+                $body = '<p>Bonjour,</p>'
+                    . '<p>Vous avez demandé la réinitialisation de votre mot de passe sur ' . htmlspecialchars((string) Bootstrap::config('app.name')) . '.</p>'
+                    . '<p><a href="' . htmlspecialchars($url) . '">Cliquez ici pour définir un nouveau mot de passe</a> (lien valable ' . $hours . 'h).</p>'
+                    . '<p>Si vous n\'avez pas fait cette demande, ignorez cet email.</p>';
 
-            (new Mailer())->send($user->email, $user->displayName(), 'Réinitialisation de mot de passe', $body);
+                (new Mailer())->send($user->email, $user->displayName(), 'Réinitialisation de mot de passe', $body);
+            } catch (\Throwable $e) {
+                error_log('Reset mot de passe — envoi échoué : ' . $e->getMessage());
+            }
         }
 
         $this->flashSuccess('Si un compte existe avec cet email, un lien de réinitialisation vient d\'être envoyé.');
