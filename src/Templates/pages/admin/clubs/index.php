@@ -25,6 +25,7 @@ $statusLabel = ['active' => 'Actif', 'suspended' => 'Suspendu', 'closed' => 'Fer
                     <th>Club</th>
                     <th>Ville</th>
                     <th>Manager</th>
+                    <th>Dernière connexion</th>
                     <th>Statut</th>
                     <th></th>
                 </tr>
@@ -39,6 +40,15 @@ $statusLabel = ['active' => 'Actif', 'suspended' => 'Suspendu', 'closed' => 'Fer
                             <?php if (!empty($c['manager_email'])): ?>
                                 <?= Renderer::escape($c['manager_name'] ?: $c['manager_email']) ?><br>
                                 <span style="color:var(--color-text-muted);font-size:12px;"><?= Renderer::escape($c['manager_email']) ?></span>
+                            <?php else: ?>
+                                <span style="color:var(--color-text-muted);">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (!empty($c['manager_last_login'])): ?>
+                                <?= Renderer::escape(date('d/m/Y H:i', strtotime((string) $c['manager_last_login']))) ?>
+                            <?php elseif (!empty($c['manager_email'])): ?>
+                                <span style="color:var(--color-text-muted);">Jamais connecté</span>
                             <?php else: ?>
                                 <span style="color:var(--color-text-muted);">—</span>
                             <?php endif; ?>

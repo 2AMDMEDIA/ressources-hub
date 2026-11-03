@@ -37,7 +37,8 @@ final class ClubRepository
      */
     public function listWithStats(): array
     {
-        $sql = 'SELECT c.*, m.email AS manager_email, m.full_name AS manager_name
+        $sql = 'SELECT c.*, m.email AS manager_email, m.full_name AS manager_name,
+                       m.last_login_at AS manager_last_login
                 FROM clubs c
                 LEFT JOIN club_managers cm ON cm.club_id = c.id
                 LEFT JOIN users m ON m.id = cm.user_id
