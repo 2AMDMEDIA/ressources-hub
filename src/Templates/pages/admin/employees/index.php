@@ -18,7 +18,7 @@ use App\Helpers\Renderer;
     <?php else: ?>
         <table class="table">
             <thead>
-                <tr><th>Employé</th><th>Fonction</th><th>Email</th><th>Club</th></tr>
+                <tr><th>Employé</th><th>Fonction</th><th>Email</th><th>Club</th><th>Dernière connexion</th></tr>
             </thead>
             <tbody>
                 <?php foreach ($employees as $emp): ?>
@@ -36,6 +36,15 @@ use App\Helpers\Renderer;
                             <a href="/admin/clubs/<?= Renderer::escape($emp['club_id']) ?>">
                                 <?= Renderer::escape($emp['club_name']) ?><?= !empty($emp['club_city']) ? ' <span style="color:var(--color-text-muted);font-size:12px;">· ' . Renderer::escape($emp['club_city']) . '</span>' : '' ?>
                             </a>
+                        </td>
+                        <td>
+                            <?php if (!empty($emp['last_login'])): ?>
+                                <?= Renderer::escape(date('d/m/Y H:i', strtotime((string) $emp['last_login']))) ?>
+                            <?php elseif (!empty($emp['user_id'])): ?>
+                                <span style="color:var(--color-text-muted);">Jamais connecté</span>
+                            <?php else: ?>
+                                <span style="color:var(--color-text-muted);">Pas d'accès</span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

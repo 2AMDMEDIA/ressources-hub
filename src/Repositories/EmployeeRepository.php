@@ -40,9 +40,11 @@ final class EmployeeRepository
      */
     public function listAllWithClub(): array
     {
-        $sql = 'SELECT e.*, c.name AS club_name, c.city AS club_city
+        $sql = 'SELECT e.*, c.name AS club_name, c.city AS club_city,
+                       u.last_login_at AS last_login
                 FROM employees e
                 JOIN clubs c ON c.id = e.club_id
+                LEFT JOIN users u ON u.id = e.user_id
                 ORDER BY c.name ASC, e.last_name ASC, e.first_name ASC';
         return $this->pdo()->query($sql)->fetchAll();
     }
